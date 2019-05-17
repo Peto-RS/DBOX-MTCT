@@ -1,0 +1,70 @@
+\hypertarget{class_mouse_fingerprint_scene}{}\section{Mouse\+Fingerprint\+Scene Class Reference}
+\label{class_mouse_fingerprint_scene}\index{Mouse\+Fingerprint\+Scene@{Mouse\+Fingerprint\+Scene}}
+Inheritance diagram for Mouse\+Fingerprint\+Scene\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_mouse_fingerprint_scene}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a1fd25b04dde62c0c5ea8fc6c61a25596}\label{class_mouse_fingerprint_scene_a1fd25b04dde62c0c5ea8fc6c61a25596}} 
+enum {\bfseries Mouse\+Fingerprint\+Scene\+Modes} \{ {\bfseries C\+H\+E\+C\+K\+ER}, 
+{\bfseries C\+H\+E\+C\+K\+E\+R\+\_\+\+H\+E\+A\+T\+M\+AP}, 
+{\bfseries M\+A\+R\+K\+ER}, 
+{\bfseries T\+R\+A\+I\+N\+ER}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_ad8fea299e9d535defe84618f6b36059a}\label{class_mouse_fingerprint_scene_ad8fea299e9d535defe84618f6b36059a}} 
+void {\bfseries push\+Minutia\+Signal} (\mbox{\hyperlink{class_minutia}{Minutia}} minutia)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a6091550d4b052dbb2342d58ec6e840b1}\label{class_mouse_fingerprint_scene_a6091550d4b052dbb2342d58ec6e840b1}} 
+void {\bfseries predict\+Minutia\+Signal} (Q\+Point point)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_afa954f2a2ab304daf78abbcd2110dcc1}\label{class_mouse_fingerprint_scene_afa954f2a2ab304daf78abbcd2110dcc1}} 
+void {\bfseries set\+Actual\+Position\+Signal} (Q\+Point, bool, Q\+Point)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_acfb42d8c65f30bb29997e52b57d81e6f}\label{class_mouse_fingerprint_scene_acfb42d8c65f30bb29997e52b57d81e6f}} 
+void {\bfseries set\+Type} (const Q\+String \&value)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_ae1dfc506636475bcde349ef2e68e7926}\label{class_mouse_fingerprint_scene_ae1dfc506636475bcde349ef2e68e7926}} 
+void {\bfseries set\+Mode} (const Mouse\+Fingerprint\+Scene\+Modes \&value)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_ab63f9b28cd8188fe04d6af3d6be9c2a5}\label{class_mouse_fingerprint_scene_ab63f9b28cd8188fe04d6af3d6be9c2a5}} 
+void {\bfseries set\+Img\+Width} (int value)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a3c233ce2942dbe1a01107bcffa55843d}\label{class_mouse_fingerprint_scene_a3c233ce2942dbe1a01107bcffa55843d}} 
+void {\bfseries set\+Img\+Height} (int value)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a9f2f7e8bd89075fc410559488603f987}\label{class_mouse_fingerprint_scene_a9f2f7e8bd89075fc410559488603f987}} 
+void {\bfseries mouse\+Double\+Click\+Event} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$event)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a2191bf09be0b920cf51c56cdb7c827b9}\label{class_mouse_fingerprint_scene_a2191bf09be0b920cf51c56cdb7c827b9}} 
+void {\bfseries mouse\+Move\+Event} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$event)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_a57fa9080034208eb571d5e8dc73c3faf}\label{class_mouse_fingerprint_scene_a57fa9080034208eb571d5e8dc73c3faf}} 
+void {\bfseries mouse\+Press\+Event} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$event)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_aafd6f4e73d8ca89e952174a7b37a8ded}\label{class_mouse_fingerprint_scene_aafd6f4e73d8ca89e952174a7b37a8ded}} 
+void {\bfseries mouse\+Release\+Event} (Q\+Graphics\+Scene\+Mouse\+Event $\ast$event)
+\item 
+\mbox{\Hypertarget{class_mouse_fingerprint_scene_aca6ac6bad36ad67ff8a11c48db3569ee}\label{class_mouse_fingerprint_scene_aca6ac6bad36ad67ff8a11c48db3569ee}} 
+void {\bfseries key\+Press\+Event} (Q\+Key\+Event $\ast$event)
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/mousefingerprintscene.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/moc\+\_\+mousefingerprintscene.\+cpp\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/mousefingerprintscene.\+cpp\end{DoxyCompactItemize}

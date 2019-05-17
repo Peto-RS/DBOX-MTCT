@@ -1,0 +1,36 @@
+\hypertarget{class_caffe_network}{}\section{Caffe\+Network Class Reference}
+\label{class_caffe_network}\index{Caffe\+Network@{Caffe\+Network}}
+Inheritance diagram for Caffe\+Network\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_caffe_network}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_caffe_network_aac47d29693e37b199fb0d753bbfa3765}\label{class_caffe_network_aac47d29693e37b199fb0d753bbfa3765}} 
+void {\bfseries log\+Signal} (Q\+String, Q\+String)
+\item 
+\mbox{\Hypertarget{class_caffe_network_a2da0df987eb997f30e689c27690f42ee}\label{class_caffe_network_a2da0df987eb997f30e689c27690f42ee}} 
+void {\bfseries update\+Progress\+Bar\+Signal} (Q\+String, int, Q\+String)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_caffe_network_ad4072a7e00f5005800d0047dfff0d5d2}\label{class_caffe_network_ad4072a7e00f5005800d0047dfff0d5d2}} 
+std\+::vector$<$ Prediction $>$ {\bfseries classify} (const cv\+::\+Mat img)
+\item 
+\mbox{\Hypertarget{class_caffe_network_a09117db8276880b57a6595d5f3b15fed}\label{class_caffe_network_a09117db8276880b57a6595d5f3b15fed}} 
+std\+::vector$<$ vector$<$ Prediction $>$ $>$ {\bfseries classify\+Batch} (const vector$<$ cv\+::\+Mat $>$ imgs, int num\+\_\+classes)
+\item 
+\mbox{\Hypertarget{class_caffe_network_a31876d345c48c7d8a764623f0f025a3f}\label{class_caffe_network_a31876d345c48c7d8a764623f0f025a3f}} 
+bool {\bfseries get\+Network\+Loaded} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/caffenetwork.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/caffenetwork.\+cpp\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/moc\+\_\+caffenetwork.\+cpp\end{DoxyCompactItemize}

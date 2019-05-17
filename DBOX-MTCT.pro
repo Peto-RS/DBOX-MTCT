@@ -18,7 +18,7 @@ DESTDIR = $$PWD
 SOURCES +=  main.cpp\
             mainwindow.cpp \
     graphics_view_zoom.cpp \
-    minutiaemarker.cpp \
+    MinutiaeMarker/minutiaemarker.cpp \
     mousefingerprintscene.cpp \
     networktrainer.cpp \
     minutiaechecker.cpp \
@@ -26,11 +26,18 @@ SOURCES +=  main.cpp\
     databasetester.cpp \
     isoconverter.cpp \
     QCustomPlot/qcustomplot.cpp \
-    extractiontester.cpp
+    extractiontester.cpp \
+    Config/dbox_mtct_config.cpp \
+    Config/minutia_config.cpp \
+    MinutiaeMarker/minutia.cpp \
+    MinutiaeMarker/Config/minutiaemarker_config.cpp \
+    MinutiaeMarker/minutiaemarker_settings.cpp \
+    MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp \
+    image.cpp
 
 HEADERS  += mainwindow.h \
     graphics_view_zoom.h \
-    minutiaemarker.h \
+    MinutiaeMarker/minutiaemarker.h \
     mousefingerprintscene.h \
     networktrainer.h \
     minutiaechecker.h \
@@ -40,8 +47,15 @@ HEADERS  += mainwindow.h \
     qmatconverter.h \
     QCustomPlot/qcustomplot.h \
     extractiontester.h \
-    helper.h
-
+    helper.h \
+    MinutiaeMarker/minutia.h \
+    ui_mainwindow.h \
+    Config/dbox_mtct_config.h \
+    Config/minutia_config.h \
+    MinutiaeMarker/minutiaemarker_settings.h \
+    MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
+    MinutiaeMarker/Config/minutiamarker_config.h \
+    image.h
 
 FORMS    += mainwindow.ui
 
@@ -49,37 +63,61 @@ FORMS    += mainwindow.ui
 RC_ICONS = core/config/Icons/mmtc.ico
 
 #CUDA
-unix:!macx: LIBS += -L$$PWD/../../../../../opt/cuda/lib64/ -lcudart
-INCLUDEPATH += $$PWD/../../../../../opt/cuda/include
-DEPENDPATH += $$PWD/../../../../../opt/cuda/include
+unix:!macx: LIBS += -L/opt/cuda/lib64/ -lcudart
+INCLUDEPATH += /opt/cuda/include
+DEPENDPATH += /opt/cuda/include
 
 #SupremaSensor
-unix:!macx: LIBS += -L$$PWD/../../../../../opt/suprema/x64/ -lUFMatcher
-INCLUDEPATH += $$PWD/../../../../../opt/suprema/include
+unix:!macx: LIBS += -L/usr/local/lib/ -lUFMatcher
+INCLUDEPATH += /usr/local/include/suprema
+DEPENDPATH += /usr/local/include/suprema
 
 #OpenCV
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/local/lib64/ -lopencv_world
+unix:!macx: LIBS += -L/usr/lib/ -lopencv_core
+unix:!macx: LIBS += -L/usr/lib/ -lopencv_imgcodecs
+unix:!macx: LIBS += -L/usr/lib/ -lopencv_imgproc
 
 #ArrayFire
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/lib/ -lafcuda
+unix:!macx: LIBS += -L/usr/lib/ -lafcuda
 
 #Caffe
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/lib64/ -lcaffe
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/lib64/ -lboost_system
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/lib64/ -lglog
-unix:!macx: LIBS += -L$$PWD/../../../../../usr/lib64/ -lprotobuf
-
-#Preprocessing
-unix:!macx: LIBS += -L$$PWD/../Preprocessing/ -lPreprocessing
-INCLUDEPATH += $$PWD/../Preprocessing
-DEPENDPATH += $$PWD/../Preprocessing
+unix:!macx: LIBS += -L/usr/lib/ -lcaffe
+unix:!macx: LIBS += -L/usr/lib/ -lboost_system
+unix:!macx: LIBS += -L/usr/lib/ -lglog
+unix:!macx: LIBS += -L/usr/lib/ -lprotobuf
 
 #Extraction
-unix:!macx: LIBS += -L$$PWD/../Extraction/ -lExtraction
-INCLUDEPATH += $$PWD/../Extraction
-DEPENDPATH += $$PWD/../Extraction
+unix:!macx: LIBS += -L$$PWD/../../Git/fingerprint-extraction-lib/ -lExtraction
+
+INCLUDEPATH += $$PWD/../../Git/fingerprint-extraction-lib
+DEPENDPATH += $$PWD/../../Git/fingerprint-extraction-lib
 
 #Matcher
-unix:!macx: LIBS += -L$$PWD/../Matcher/ -lMatcher
-INCLUDEPATH += $$PWD/../Matcher
-DEPENDPATH += $$PWD/../Matcher
+unix:!macx: LIBS += -L$$PWD/../../Git/fingerprint-matching-lib/ -lMatcher
+
+INCLUDEPATH += $$PWD/../../Git/fingerprint-matching-lib
+DEPENDPATH += $$PWD/../../Git/fingerprint-matching-lib
+
+#Preprocessing
+unix:!macx: LIBS += -L$$PWD/../../Git/fingerprint-preprocessing-lib/ -lPreprocessing
+
+INCLUDEPATH += $$PWD/../../Git/fingerprint-preprocessing-lib
+DEPENDPATH += $$PWD/../../Git/fingerprint-preprocessing-lib
+
+RESOURCES +=
+
+DISTFILES += \
+    Resources/MinutiaeIcons/BIFURCATION.png \
+    Resources/MinutiaeIcons/BREAK.png \
+    Resources/MinutiaeIcons/BRIDGE.png \
+    Resources/MinutiaeIcons/CROSSBAR.png \
+    Resources/MinutiaeIcons/DOCK.png \
+    Resources/MinutiaeIcons/DOT.png \
+    Resources/MinutiaeIcons/ENCLOSURE.png \
+    Resources/MinutiaeIcons/OPPOSITE_BIFURCATIONS.png \
+    Resources/MinutiaeIcons/OVERLAP.png \
+    Resources/MinutiaeIcons/RETURN.png \
+    Resources/MinutiaeIcons/SHORT_RIDGE.png \
+    Resources/MinutiaeIcons/SPIKE.png \
+    Resources/MinutiaeIcons/TERMINATION.png \
+    Resources/MinutiaeIcons/TRIFURCATION.png

@@ -1,0 +1,81 @@
+\hypertarget{class_extraction_tester}{}\section{Extraction\+Tester Class Reference}
+\label{class_extraction_tester}\index{Extraction\+Tester@{Extraction\+Tester}}
+Inheritance diagram for Extraction\+Tester\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_extraction_tester}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a7487d66988f68132722c3011ff06bdea}\label{class_extraction_tester_a7487d66988f68132722c3011ff06bdea}} 
+void {\bfseries preprocessing\+Results\+Signal} (cv\+::\+Mat img\+Orig, cv\+::\+Mat img\+O\+Map, cv\+::\+Mat img\+Enhanced, cv\+::\+Mat img\+Binarized, cv\+::\+Mat img\+Skeleton, cv\+::\+Mat img\+Skeleton\+Inv, cv\+::\+Mat img\+Mask, cv\+::\+Mat img\+Q\+Map, cv\+::\+Mat img\+F\+Map)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a8ef95fe9c357a88a10fb899471e48fcb}\label{class_extraction_tester_a8ef95fe9c357a88a10fb899471e48fcb}} 
+void {\bfseries send\+Log\+Signal} (Q\+String field, Q\+String text)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_afa8a7e9e05078f0513377312828d95b8}\label{class_extraction_tester_afa8a7e9e05078f0513377312828d95b8}} 
+void {\bfseries extraction\+Results\+Signal} (cv\+::\+Mat img\+Skeleton, Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ crossing\+Number, Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ fixed\+Orientations, Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ checked\+Mnutiae)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a4f44cdfd3dbcee8adcb52e60676a4076}\label{class_extraction_tester_a4f44cdfd3dbcee8adcb52e60676a4076}} 
+void {\bfseries start\+Preprocessing} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a08e0e44aa7b635877e8254fef2a9f7d4}\label{class_extraction_tester_a08e0e44aa7b635877e8254fef2a9f7d4}} 
+Q\+String {\bfseries get\+Input\+Path} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_ab1d54e456d20bc1d921cfa6e0491c06c}\label{class_extraction_tester_ab1d54e456d20bc1d921cfa6e0491c06c}} 
+void {\bfseries set\+Input\+Path} (const Q\+String \&value)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a19d6aa346489851a1b0812518f98de44}\label{class_extraction_tester_a19d6aa346489851a1b0812518f98de44}} 
+void {\bfseries set\+Preprocessing\+Params} (int block\+Size, int basic\+O\+Map\+Block\+Size, int advanced\+O\+Map\+Block\+Size, double basic\+O\+Map\+Sigma, double advanced\+O\+Map\+Sigma, double gabor\+Sigma, double gabor\+Lambda, int hole\+Size)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a0bd042b9f638d158c8c6de3d7f24ee10}\label{class_extraction_tester_a0bd042b9f638d158c8c6de3d7f24ee10}} 
+void {\bfseries set\+Features} (bool use\+Contrast\+Enhancement, bool use\+Advanced\+Orientation\+Map, bool use\+Remove\+Holes, bool generate\+Iverted\+Skeleton, bool use\+Mask, bool use\+Quality\+Map, bool use\+Frequency\+Map)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a5cfce171a89497befe38148cf7a10792}\label{class_extraction_tester_a5cfce171a89497befe38148cf7a10792}} 
+void {\bfseries set\+Extraction\+Features} (int use\+Orientation\+Fixer, int use\+Var\+Block\+Size)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a88092baa79b5fec778000f0b52128fc4}\label{class_extraction_tester_a88092baa79b5fec778000f0b52128fc4}} 
+cv\+::\+Mat {\bfseries get\+Img\+Orig} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_af48075cb87a5c99d3e5b9e9f756da1e3}\label{class_extraction_tester_af48075cb87a5c99d3e5b9e9f756da1e3}} 
+void {\bfseries set\+Img\+Orig} (const cv\+::\+Mat \&value)
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a74c9c9a022b90d5f781c719dd34c5f99}\label{class_extraction_tester_a74c9c9a022b90d5f781c719dd34c5f99}} 
+cv\+::\+Mat {\bfseries get\+Img\+Skeleton} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_af64be134cee0ea0f58ce88e625156b23}\label{class_extraction_tester_af64be134cee0ea0f58ce88e625156b23}} 
+cv\+::\+Mat {\bfseries get\+Img\+Skeleton\+Inv} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_ab55ec8a210398568ff0f3cbe68d861ce}\label{class_extraction_tester_ab55ec8a210398568ff0f3cbe68d861ce}} 
+cv\+::\+Mat {\bfseries get\+Img\+O\+Map} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a1df8b0906aba9fa37c91bef924efa0f1}\label{class_extraction_tester_a1df8b0906aba9fa37c91bef924efa0f1}} 
+cv\+::\+Mat {\bfseries get\+Img\+Q\+Map} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a246569d4b1cc50c3b7f0557196674e65}\label{class_extraction_tester_a246569d4b1cc50c3b7f0557196674e65}} 
+cv\+::\+Mat {\bfseries get\+Img\+F\+Map} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a10ca92bb573fdeb262e75393806301fc}\label{class_extraction_tester_a10ca92bb573fdeb262e75393806301fc}} 
+bool {\bfseries get\+Is\+Img\+Loaded} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_aa250b93d32c1cd6eb6ff277b78bb4fd6}\label{class_extraction_tester_aa250b93d32c1cd6eb6ff277b78bb4fd6}} 
+Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ {\bfseries get\+Crossing\+Number} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a78add98013d8dc6bcd4e0564d63ae185}\label{class_extraction_tester_a78add98013d8dc6bcd4e0564d63ae185}} 
+Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ {\bfseries get\+Fixed\+Orientations} () const
+\item 
+\mbox{\Hypertarget{class_extraction_tester_a769c088dfe92a7f7fdb977ee521c86bb}\label{class_extraction_tester_a769c088dfe92a7f7fdb977ee521c86bb}} 
+Q\+Vector$<$ M\+I\+N\+U\+T\+IA $>$ {\bfseries get\+Checked\+Mnutiae} () const
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/extractiontester.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/extractiontester.\+cpp\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/moc\+\_\+extractiontester.\+cpp\end{DoxyCompactItemize}

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 5.10.1
+** Created by: Qt User Interface Compiler version 5.11.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,9 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
-#include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QDoubleSpinBox>
@@ -47,28 +45,28 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout_41;
+    QVBoxLayout *verticalLayout_8;
     QTabWidget *tabWidget_main;
     QWidget *tab_marker;
     QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *verticalLayout_5;
     QGroupBox *groupBox_marker_inputImages;
     QVBoxLayout *verticalLayout_9;
-    QVBoxLayout *verticalLayout_8;
+    QVBoxLayout *verticalLayout_3;
     QPushButton *pushButton_inputDirectory;
     QListWidget *listWidget_inputImages;
     QGroupBox *groupBox_marker_settings;
-    QVBoxLayout *verticalLayout_3;
-    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout_67;
+    QCheckBox *checkBox_marker_useUniqueSize;
+    QHBoxLayout *horizontalLayout_minutiaeBlocksize;
     QLabel *label_minutiaeBlockSize;
     QSpinBox *spinBox_minutiaeBlockSize;
+    QHBoxLayout *horizontalLayout_25;
     QLabel *label_additionalBlocks;
     QSpinBox *spinBox_additionalBlocks;
     QGroupBox *groupBox_minutiaeType;
     QVBoxLayout *verticalLayout_2;
-    QRadioButton *radioButton_ending;
-    QRadioButton *radioButton_bifurcation;
-    QRadioButton *radioButton_nothing;
+    QComboBox *comboBox_minutiaeTypes;
     QGroupBox *groupBox_transformations;
     QVBoxLayout *verticalLayout;
     QCheckBox *checkBox_marker_rotations;
@@ -76,6 +74,7 @@ public:
     QCheckBox *checkBox_marker_blur;
     QSpacerItem *horizontalSpacer_9;
     QDoubleSpinBox *doubleSpinBox_marker_blur;
+    QCheckBox *checkBox_marker_mirroring;
     QGroupBox *groupBox_marker_irisBlur;
     QGridLayout *gridLayout_7;
     QLabel *label_irisBlur_blur;
@@ -498,14 +497,13 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1168, 725);
-        MainWindow->setMaximumSize(QSize(16777215, 725));
+        MainWindow->resize(1168, 773);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout_41 = new QHBoxLayout(centralWidget);
-        horizontalLayout_41->setSpacing(6);
-        horizontalLayout_41->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_41->setObjectName(QStringLiteral("horizontalLayout_41"));
+        verticalLayout_8 = new QVBoxLayout(centralWidget);
+        verticalLayout_8->setSpacing(6);
+        verticalLayout_8->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
         tabWidget_main = new QTabWidget(centralWidget);
         tabWidget_main->setObjectName(QStringLiteral("tabWidget_main"));
         tab_marker = new QWidget();
@@ -517,92 +515,101 @@ public:
         verticalLayout_5 = new QVBoxLayout();
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_5->setSizeConstraint(QLayout::SetDefaultConstraint);
         groupBox_marker_inputImages = new QGroupBox(tab_marker);
         groupBox_marker_inputImages->setObjectName(QStringLiteral("groupBox_marker_inputImages"));
         groupBox_marker_inputImages->setMinimumSize(QSize(200, 0));
-        groupBox_marker_inputImages->setMaximumSize(QSize(200, 16777215));
+        groupBox_marker_inputImages->setSizeIncrement(QSize(0, 0));
         verticalLayout_9 = new QVBoxLayout(groupBox_marker_inputImages);
         verticalLayout_9->setSpacing(6);
         verticalLayout_9->setContentsMargins(11, 11, 11, 11);
         verticalLayout_9->setObjectName(QStringLiteral("verticalLayout_9"));
-        verticalLayout_8 = new QVBoxLayout();
-        verticalLayout_8->setSpacing(6);
-        verticalLayout_8->setObjectName(QStringLiteral("verticalLayout_8"));
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         pushButton_inputDirectory = new QPushButton(groupBox_marker_inputImages);
         pushButton_inputDirectory->setObjectName(QStringLiteral("pushButton_inputDirectory"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(1);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(pushButton_inputDirectory->sizePolicy().hasHeightForWidth());
         pushButton_inputDirectory->setSizePolicy(sizePolicy);
-        pushButton_inputDirectory->setMaximumSize(QSize(100, 16777215));
 
-        verticalLayout_8->addWidget(pushButton_inputDirectory);
+        verticalLayout_3->addWidget(pushButton_inputDirectory);
 
         listWidget_inputImages = new QListWidget(groupBox_marker_inputImages);
         listWidget_inputImages->setObjectName(QStringLiteral("listWidget_inputImages"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(listWidget_inputImages->sizePolicy().hasHeightForWidth());
         listWidget_inputImages->setSizePolicy(sizePolicy1);
-        listWidget_inputImages->setMaximumSize(QSize(16777215, 16777215));
+        listWidget_inputImages->setMaximumSize(QSize(16777215, 200));
 
-        verticalLayout_8->addWidget(listWidget_inputImages);
+        verticalLayout_3->addWidget(listWidget_inputImages);
 
 
-        verticalLayout_9->addLayout(verticalLayout_8);
+        verticalLayout_9->addLayout(verticalLayout_3);
 
 
         verticalLayout_5->addWidget(groupBox_marker_inputImages);
 
         groupBox_marker_settings = new QGroupBox(tab_marker);
         groupBox_marker_settings->setObjectName(QStringLiteral("groupBox_marker_settings"));
-        groupBox_marker_settings->setMaximumSize(QSize(200, 16777215));
-        verticalLayout_3 = new QVBoxLayout(groupBox_marker_settings);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        gridLayout = new QGridLayout();
-        gridLayout->setSpacing(6);
-        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        verticalLayout_67 = new QVBoxLayout(groupBox_marker_settings);
+        verticalLayout_67->setSpacing(6);
+        verticalLayout_67->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_67->setObjectName(QStringLiteral("verticalLayout_67"));
+        checkBox_marker_useUniqueSize = new QCheckBox(groupBox_marker_settings);
+        checkBox_marker_useUniqueSize->setObjectName(QStringLiteral("checkBox_marker_useUniqueSize"));
+        checkBox_marker_useUniqueSize->setChecked(true);
+
+        verticalLayout_67->addWidget(checkBox_marker_useUniqueSize);
+
+        horizontalLayout_minutiaeBlocksize = new QHBoxLayout();
+        horizontalLayout_minutiaeBlocksize->setSpacing(6);
+        horizontalLayout_minutiaeBlocksize->setObjectName(QStringLiteral("horizontalLayout_minutiaeBlocksize"));
         label_minutiaeBlockSize = new QLabel(groupBox_marker_settings);
         label_minutiaeBlockSize->setObjectName(QStringLiteral("label_minutiaeBlockSize"));
-        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(label_minutiaeBlockSize->sizePolicy().hasHeightForWidth());
-        label_minutiaeBlockSize->setSizePolicy(sizePolicy2);
-        label_minutiaeBlockSize->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        sizePolicy1.setHeightForWidth(label_minutiaeBlockSize->sizePolicy().hasHeightForWidth());
+        label_minutiaeBlockSize->setSizePolicy(sizePolicy1);
 
-        gridLayout->addWidget(label_minutiaeBlockSize, 0, 0, 1, 1);
+        horizontalLayout_minutiaeBlocksize->addWidget(label_minutiaeBlockSize);
 
         spinBox_minutiaeBlockSize = new QSpinBox(groupBox_marker_settings);
         spinBox_minutiaeBlockSize->setObjectName(QStringLiteral("spinBox_minutiaeBlockSize"));
-        sizePolicy.setHeightForWidth(spinBox_minutiaeBlockSize->sizePolicy().hasHeightForWidth());
-        spinBox_minutiaeBlockSize->setSizePolicy(sizePolicy);
+        QSizePolicy sizePolicy2(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(spinBox_minutiaeBlockSize->sizePolicy().hasHeightForWidth());
+        spinBox_minutiaeBlockSize->setSizePolicy(sizePolicy2);
         spinBox_minutiaeBlockSize->setValue(21);
 
-        gridLayout->addWidget(spinBox_minutiaeBlockSize, 0, 1, 1, 1);
+        horizontalLayout_minutiaeBlocksize->addWidget(spinBox_minutiaeBlockSize);
 
+
+        verticalLayout_67->addLayout(horizontalLayout_minutiaeBlocksize);
+
+        horizontalLayout_25 = new QHBoxLayout();
+        horizontalLayout_25->setSpacing(6);
+        horizontalLayout_25->setObjectName(QStringLiteral("horizontalLayout_25"));
         label_additionalBlocks = new QLabel(groupBox_marker_settings);
         label_additionalBlocks->setObjectName(QStringLiteral("label_additionalBlocks"));
-        sizePolicy2.setHeightForWidth(label_additionalBlocks->sizePolicy().hasHeightForWidth());
-        label_additionalBlocks->setSizePolicy(sizePolicy2);
-        label_additionalBlocks->setAlignment(Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter);
+        sizePolicy1.setHeightForWidth(label_additionalBlocks->sizePolicy().hasHeightForWidth());
+        label_additionalBlocks->setSizePolicy(sizePolicy1);
 
-        gridLayout->addWidget(label_additionalBlocks, 1, 0, 1, 1);
+        horizontalLayout_25->addWidget(label_additionalBlocks);
 
         spinBox_additionalBlocks = new QSpinBox(groupBox_marker_settings);
         spinBox_additionalBlocks->setObjectName(QStringLiteral("spinBox_additionalBlocks"));
-        sizePolicy.setHeightForWidth(spinBox_additionalBlocks->sizePolicy().hasHeightForWidth());
-        spinBox_additionalBlocks->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(spinBox_additionalBlocks->sizePolicy().hasHeightForWidth());
+        spinBox_additionalBlocks->setSizePolicy(sizePolicy2);
         spinBox_additionalBlocks->setValue(2);
 
-        gridLayout->addWidget(spinBox_additionalBlocks, 1, 1, 1, 1);
+        horizontalLayout_25->addWidget(spinBox_additionalBlocks);
 
 
-        verticalLayout_3->addLayout(gridLayout);
+        verticalLayout_67->addLayout(horizontalLayout_25);
 
         groupBox_minutiaeType = new QGroupBox(groupBox_marker_settings);
         groupBox_minutiaeType->setObjectName(QStringLiteral("groupBox_minutiaeType"));
@@ -610,25 +617,18 @@ public:
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        radioButton_ending = new QRadioButton(groupBox_minutiaeType);
-        radioButton_ending->setObjectName(QStringLiteral("radioButton_ending"));
-        radioButton_ending->setChecked(true);
+        comboBox_minutiaeTypes = new QComboBox(groupBox_minutiaeType);
+        comboBox_minutiaeTypes->setObjectName(QStringLiteral("comboBox_minutiaeTypes"));
+        comboBox_minutiaeTypes->setEnabled(true);
+        comboBox_minutiaeTypes->setEditable(false);
+        comboBox_minutiaeTypes->setMaxVisibleItems(10);
+        comboBox_minutiaeTypes->setMinimumContentsLength(0);
+        comboBox_minutiaeTypes->setIconSize(QSize(35, 35));
 
-        verticalLayout_2->addWidget(radioButton_ending);
-
-        radioButton_bifurcation = new QRadioButton(groupBox_minutiaeType);
-        radioButton_bifurcation->setObjectName(QStringLiteral("radioButton_bifurcation"));
-        radioButton_bifurcation->setChecked(false);
-
-        verticalLayout_2->addWidget(radioButton_bifurcation);
-
-        radioButton_nothing = new QRadioButton(groupBox_minutiaeType);
-        radioButton_nothing->setObjectName(QStringLiteral("radioButton_nothing"));
-
-        verticalLayout_2->addWidget(radioButton_nothing);
+        verticalLayout_2->addWidget(comboBox_minutiaeTypes);
 
 
-        verticalLayout_3->addWidget(groupBox_minutiaeType);
+        verticalLayout_67->addWidget(groupBox_minutiaeType);
 
         groupBox_transformations = new QGroupBox(groupBox_marker_settings);
         groupBox_transformations->setObjectName(QStringLiteral("groupBox_transformations"));
@@ -670,6 +670,11 @@ public:
 
         verticalLayout->addLayout(horizontalLayout_17);
 
+        checkBox_marker_mirroring = new QCheckBox(groupBox_transformations);
+        checkBox_marker_mirroring->setObjectName(QStringLiteral("checkBox_marker_mirroring"));
+
+        verticalLayout->addWidget(checkBox_marker_mirroring);
+
         groupBox_marker_irisBlur = new QGroupBox(groupBox_transformations);
         groupBox_marker_irisBlur->setObjectName(QStringLiteral("groupBox_marker_irisBlur"));
         groupBox_marker_irisBlur->setCheckable(true);
@@ -695,7 +700,7 @@ public:
         doubleSpinBox_marker_irisBlur_blur->setMinimum(0.1);
         doubleSpinBox_marker_irisBlur_blur->setMaximum(10);
         doubleSpinBox_marker_irisBlur_blur->setSingleStep(0.1);
-        doubleSpinBox_marker_irisBlur_blur->setValue(1.1);
+        doubleSpinBox_marker_irisBlur_blur->setValue(0.8);
 
         gridLayout_7->addWidget(doubleSpinBox_marker_irisBlur_blur, 1, 0, 1, 1);
 
@@ -715,7 +720,7 @@ public:
         verticalLayout->addWidget(groupBox_marker_irisBlur);
 
 
-        verticalLayout_3->addWidget(groupBox_transformations);
+        verticalLayout_67->addWidget(groupBox_transformations);
 
 
         verticalLayout_5->addWidget(groupBox_marker_settings);
@@ -797,11 +802,8 @@ public:
 
         label_blockOrig = new QLabel(groupBox_blockPreview);
         label_blockOrig->setObjectName(QStringLiteral("label_blockOrig"));
-        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Preferred);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(label_blockOrig->sizePolicy().hasHeightForWidth());
-        label_blockOrig->setSizePolicy(sizePolicy4);
+        sizePolicy1.setHeightForWidth(label_blockOrig->sizePolicy().hasHeightForWidth());
+        label_blockOrig->setSizePolicy(sizePolicy1);
         label_blockOrig->setMinimumSize(QSize(60, 0));
         label_blockOrig->setMaximumSize(QSize(60, 16777215));
         label_blockOrig->setAlignment(Qt::AlignCenter);
@@ -853,8 +855,8 @@ public:
 
         label_blockBlur = new QLabel(groupBox_blockPreview);
         label_blockBlur->setObjectName(QStringLiteral("label_blockBlur"));
-        sizePolicy4.setHeightForWidth(label_blockBlur->sizePolicy().hasHeightForWidth());
-        label_blockBlur->setSizePolicy(sizePolicy4);
+        sizePolicy1.setHeightForWidth(label_blockBlur->sizePolicy().hasHeightForWidth());
+        label_blockBlur->setSizePolicy(sizePolicy1);
         label_blockBlur->setMinimumSize(QSize(60, 0));
         label_blockBlur->setMaximumSize(QSize(60, 16777215));
         label_blockBlur->setAlignment(Qt::AlignCenter);
@@ -906,8 +908,8 @@ public:
 
         label_blockIrisBlur = new QLabel(groupBox_blockPreview);
         label_blockIrisBlur->setObjectName(QStringLiteral("label_blockIrisBlur"));
-        sizePolicy4.setHeightForWidth(label_blockIrisBlur->sizePolicy().hasHeightForWidth());
-        label_blockIrisBlur->setSizePolicy(sizePolicy4);
+        sizePolicy1.setHeightForWidth(label_blockIrisBlur->sizePolicy().hasHeightForWidth());
+        label_blockIrisBlur->setSizePolicy(sizePolicy1);
         label_blockIrisBlur->setMinimumSize(QSize(65, 0));
         label_blockIrisBlur->setMaximumSize(QSize(65, 16777215));
         label_blockIrisBlur->setAlignment(Qt::AlignCenter);
@@ -990,8 +992,8 @@ public:
 
         pushButton_marker_outputDirectory = new QPushButton(groupBox_output);
         pushButton_marker_outputDirectory->setObjectName(QStringLiteral("pushButton_marker_outputDirectory"));
-        sizePolicy.setHeightForWidth(pushButton_marker_outputDirectory->sizePolicy().hasHeightForWidth());
-        pushButton_marker_outputDirectory->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(pushButton_marker_outputDirectory->sizePolicy().hasHeightForWidth());
+        pushButton_marker_outputDirectory->setSizePolicy(sizePolicy2);
         pushButton_marker_outputDirectory->setMinimumSize(QSize(100, 0));
         pushButton_marker_outputDirectory->setMaximumSize(QSize(100, 16777215));
 
@@ -1080,11 +1082,11 @@ public:
 
         label_trainerInputDirectory = new QLabel(groupBox_netTrainer_input);
         label_trainerInputDirectory->setObjectName(QStringLiteral("label_trainerInputDirectory"));
-        QSizePolicy sizePolicy5(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(label_trainerInputDirectory->sizePolicy().hasHeightForWidth());
-        label_trainerInputDirectory->setSizePolicy(sizePolicy5);
+        QSizePolicy sizePolicy4(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(label_trainerInputDirectory->sizePolicy().hasHeightForWidth());
+        label_trainerInputDirectory->setSizePolicy(sizePolicy4);
         label_trainerInputDirectory->setWordWrap(true);
 
         verticalLayout_19->addWidget(label_trainerInputDirectory);
@@ -1522,8 +1524,8 @@ public:
         verticalLayout_14->setObjectName(QStringLiteral("verticalLayout_14"));
         pushButton_inputModel = new QPushButton(groupBox_inputModel);
         pushButton_inputModel->setObjectName(QStringLiteral("pushButton_inputModel"));
-        sizePolicy.setHeightForWidth(pushButton_inputModel->sizePolicy().hasHeightForWidth());
-        pushButton_inputModel->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(pushButton_inputModel->sizePolicy().hasHeightForWidth());
+        pushButton_inputModel->setSizePolicy(sizePolicy2);
         pushButton_inputModel->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_14->addWidget(pushButton_inputModel);
@@ -1554,16 +1556,19 @@ public:
         verticalLayout_12->setObjectName(QStringLiteral("verticalLayout_12"));
         pushButton_inputDirectory_2 = new QPushButton(groupBox_inputImages_2);
         pushButton_inputDirectory_2->setObjectName(QStringLiteral("pushButton_inputDirectory_2"));
-        sizePolicy.setHeightForWidth(pushButton_inputDirectory_2->sizePolicy().hasHeightForWidth());
-        pushButton_inputDirectory_2->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(pushButton_inputDirectory_2->sizePolicy().hasHeightForWidth());
+        pushButton_inputDirectory_2->setSizePolicy(sizePolicy2);
         pushButton_inputDirectory_2->setMaximumSize(QSize(100, 16777215));
 
         verticalLayout_12->addWidget(pushButton_inputDirectory_2);
 
         listWidget_inputImages_2 = new QListWidget(groupBox_inputImages_2);
         listWidget_inputImages_2->setObjectName(QStringLiteral("listWidget_inputImages_2"));
-        sizePolicy1.setHeightForWidth(listWidget_inputImages_2->sizePolicy().hasHeightForWidth());
-        listWidget_inputImages_2->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(listWidget_inputImages_2->sizePolicy().hasHeightForWidth());
+        listWidget_inputImages_2->setSizePolicy(sizePolicy5);
         listWidget_inputImages_2->setMaximumSize(QSize(16777215, 16777215));
 
         verticalLayout_12->addWidget(listWidget_inputImages_2);
@@ -2534,8 +2539,8 @@ public:
         verticalLayout_37->setObjectName(QStringLiteral("verticalLayout_37"));
         tabWidget_testerSettings = new QTabWidget(tab_dbTester);
         tabWidget_testerSettings->setObjectName(QStringLiteral("tabWidget_testerSettings"));
-        sizePolicy4.setHeightForWidth(tabWidget_testerSettings->sizePolicy().hasHeightForWidth());
-        tabWidget_testerSettings->setSizePolicy(sizePolicy4);
+        sizePolicy1.setHeightForWidth(tabWidget_testerSettings->sizePolicy().hasHeightForWidth());
+        tabWidget_testerSettings->setSizePolicy(sizePolicy1);
         tabWidget_testerSettings->setMinimumSize(QSize(0, 0));
         tabWidget_testerSettings->setMaximumSize(QSize(270, 260));
         tabWidget_testerSettings->setTabPosition(QTabWidget::North);
@@ -2550,8 +2555,8 @@ public:
         horizontalLayout_14->setObjectName(QStringLiteral("horizontalLayout_14"));
         pushButton_inputDatabase = new QPushButton(tab_3);
         pushButton_inputDatabase->setObjectName(QStringLiteral("pushButton_inputDatabase"));
-        sizePolicy.setHeightForWidth(pushButton_inputDatabase->sizePolicy().hasHeightForWidth());
-        pushButton_inputDatabase->setSizePolicy(sizePolicy);
+        sizePolicy2.setHeightForWidth(pushButton_inputDatabase->sizePolicy().hasHeightForWidth());
+        pushButton_inputDatabase->setSizePolicy(sizePolicy2);
         pushButton_inputDatabase->setMaximumSize(QSize(100, 16777215));
 
         horizontalLayout_14->addWidget(pushButton_inputDatabase);
@@ -3109,12 +3114,12 @@ public:
 
         tabWidget_main->addTab(tab_dbTester, QString());
 
-        horizontalLayout_41->addWidget(tabWidget_main);
+        verticalLayout_8->addWidget(tabWidget_main);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1168, 22));
+        menuBar->setGeometry(QRect(0, 0, 1168, 30));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
@@ -3123,6 +3128,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget_main->setCurrentIndex(0);
+        comboBox_minutiaeTypes->setCurrentIndex(-1);
         tabWidget_exTester_settings->setCurrentIndex(0);
         tabWidget_exTester_results->setCurrentIndex(0);
         tabWidget_testerSettings->setCurrentIndex(0);
@@ -3138,16 +3144,16 @@ public:
         groupBox_marker_inputImages->setTitle(QApplication::translate("MainWindow", "Input Images", nullptr));
         pushButton_inputDirectory->setText(QApplication::translate("MainWindow", "Select Directory", nullptr));
         groupBox_marker_settings->setTitle(QApplication::translate("MainWindow", "Settings", nullptr));
-        label_minutiaeBlockSize->setText(QApplication::translate("MainWindow", "Minutiae Block Size:", nullptr));
-        label_additionalBlocks->setText(QApplication::translate("MainWindow", "Additional Blocks +/-:", nullptr));
-        groupBox_minutiaeType->setTitle(QApplication::translate("MainWindow", "Minutiae Type", nullptr));
-        radioButton_ending->setText(QApplication::translate("MainWindow", "Ending", nullptr));
-        radioButton_bifurcation->setText(QApplication::translate("MainWindow", "Bifurcation", nullptr));
-        radioButton_nothing->setText(QApplication::translate("MainWindow", "Nothing", nullptr));
+        checkBox_marker_useUniqueSize->setText(QApplication::translate("MainWindow", "Use same size for images\n"
+" (except created in dragging mode)", nullptr));
+        label_minutiaeBlockSize->setText(QApplication::translate("MainWindow", "Minutiae Blocksize", nullptr));
+        label_additionalBlocks->setText(QApplication::translate("MainWindow", "Additional Blocksize +/-", nullptr));
+        groupBox_minutiaeType->setTitle(QApplication::translate("MainWindow", "Minutiae Types", nullptr));
         groupBox_transformations->setTitle(QApplication::translate("MainWindow", "Transformations", nullptr));
         checkBox_marker_rotations->setText(QApplication::translate("MainWindow", "Rotations", nullptr));
         checkBox_marker_blur->setText(QApplication::translate("MainWindow", "Blur", nullptr));
-        groupBox_marker_irisBlur->setTitle(QApplication::translate("MainWindow", "Iris Blur", nullptr));
+        checkBox_marker_mirroring->setText(QApplication::translate("MainWindow", "Mirroring", nullptr));
+        groupBox_marker_irisBlur->setTitle(QApplication::translate("MainWindow", "&Iris Blur", nullptr));
         label_irisBlur_blur->setText(QApplication::translate("MainWindow", "Blur", nullptr));
         label_irisBlur_radius->setText(QApplication::translate("MainWindow", "Radius", nullptr));
         groupBox_fingerprintImage->setTitle(QApplication::translate("MainWindow", "Fingerprint Image", nullptr));
@@ -3179,7 +3185,7 @@ public:
         label_netTrainer_testSet->setText(QApplication::translate("MainWindow", "Test set (%)", nullptr));
         label_netTrainer_trainSet->setText(QApplication::translate("MainWindow", "Train set (%):", nullptr));
         groupBox_netTrainer_mode->setTitle(QApplication::translate("MainWindow", "Mode", nullptr));
-        radioButton_netTrainer_cpu->setText(QApplication::translate("MainWindow", "CPU", nullptr));
+        radioButton_netTrainer_cpu->setText(QApplication::translate("MainWindow", "C&PU", nullptr));
         radioButton_netTrainer_gpu->setText(QApplication::translate("MainWindow", "GPU", nullptr));
         groupBox_netTrainer_output->setTitle(QApplication::translate("MainWindow", "Output", nullptr));
         label_netTrainer_outputFolder->setText(QApplication::translate("MainWindow", "Output folder:", nullptr));
@@ -3213,7 +3219,7 @@ public:
         groupBox_fingerprintImage_2->setTitle(QApplication::translate("MainWindow", "Fingerprint Image", nullptr));
         groupBox_minChecker_checkSettings->setTitle(QApplication::translate("MainWindow", "Check Settings", nullptr));
         groupBox_minChecker_mode->setTitle(QApplication::translate("MainWindow", "Mode", nullptr));
-        radioButton_minChecker_cpuMode->setText(QApplication::translate("MainWindow", "CPU", nullptr));
+        radioButton_minChecker_cpuMode->setText(QApplication::translate("MainWindow", "C&PU", nullptr));
         radioButton_minChecker_gpuMode->setText(QApplication::translate("MainWindow", "GPU", nullptr));
         groupBox_minChecker_extactionSettings->setTitle(QApplication::translate("MainWindow", "Extraction", nullptr));
         label_checkBlockSize->setText(QApplication::translate("MainWindow", "Block Size:", nullptr));
@@ -3239,7 +3245,7 @@ public:
         label_exTester_GaussianBlurAdvanced->setText(QApplication::translate("MainWindow", "Gaussian Blur Advanced", nullptr));
         label_exTester_AdvancedOMapBlockSize->setText(QApplication::translate("MainWindow", "Block Size", nullptr));
         label_exTester_AdvancedOMapSigma->setText(QApplication::translate("MainWindow", "Sigma", nullptr));
-        groupBox_exTester_frequencyMap->setTitle(QApplication::translate("MainWindow", "Frequency Map", nullptr));
+        groupBox_exTester_frequencyMap->setTitle(QApplication::translate("MainWindow", "Fre&quency Map", nullptr));
         label_exTester_freqBlockSize->setText(QApplication::translate("MainWindow", "Block Size", nullptr));
         label_exTester_freqExBlockSize->setText(QApplication::translate("MainWindow", "Extraction Block Size", nullptr));
         groupBox_exTester_ParameterGabor->setTitle(QApplication::translate("MainWindow", "Gabor Filter", nullptr));
@@ -3289,7 +3295,7 @@ public:
         label_numberOfSubject->setText(QApplication::translate("MainWindow", "Number of subjects:", nullptr));
         label_imagesPerSubject->setText(QApplication::translate("MainWindow", "Images per subjects:", nullptr));
         groupBox_dbTester_mode->setTitle(QApplication::translate("MainWindow", "Mode", nullptr));
-        radioButton_dbTester_cpuMode->setText(QApplication::translate("MainWindow", "CPU", nullptr));
+        radioButton_dbTester_cpuMode->setText(QApplication::translate("MainWindow", "CP&U", nullptr));
         label_dbTester_threadNum->setText(QApplication::translate("MainWindow", "Threads:", nullptr));
         radioButton_dbTester_gpuMode->setText(QApplication::translate("MainWindow", "GPU", nullptr));
         tabWidget_testerSettings->setTabText(tabWidget_testerSettings->indexOf(tab_3), QApplication::translate("MainWindow", "Input", nullptr));

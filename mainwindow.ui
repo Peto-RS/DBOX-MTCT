@@ -7,20 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>1168</width>
-    <height>725</height>
+    <height>773</height>
    </rect>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>16777215</width>
-    <height>725</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>DBOX-MTCT</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_41">
+   <layout class="QVBoxLayout" name="verticalLayout_8">
     <item>
      <widget class="QTabWidget" name="tabWidget_main">
       <property name="currentIndex">
@@ -33,6 +27,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
           <item>
            <widget class="QGroupBox" name="groupBox_marker_inputImages">
             <property name="minimumSize">
@@ -41,10 +38,10 @@
               <height>0</height>
              </size>
             </property>
-            <property name="maximumSize">
+            <property name="sizeIncrement">
              <size>
-              <width>200</width>
-              <height>16777215</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
             <property name="title">
@@ -52,20 +49,14 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_8">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
                <item>
                 <widget class="QPushButton" name="pushButton_inputDirectory">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>1</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>100</width>
-                   <height>16777215</height>
-                  </size>
                  </property>
                  <property name="text">
                   <string>Select Directory</string>
@@ -75,7 +66,7 @@
                <item>
                 <widget class="QListWidget" name="listWidget_inputImages">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -83,7 +74,7 @@
                  <property name="maximumSize">
                   <size>
                    <width>16777215</width>
-                   <height>16777215</height>
+                   <height>200</height>
                   </size>
                  </property>
                 </widget>
@@ -95,35 +86,37 @@
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_marker_settings">
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>16777215</height>
-             </size>
-            </property>
             <property name="title">
              <string>Settings</string>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_67">
              <item>
-              <layout class="QGridLayout" name="gridLayout">
-               <item row="0" column="0">
+              <widget class="QCheckBox" name="checkBox_marker_useUniqueSize">
+               <property name="text">
+                <string>Use same size for images
+ (except created in dragging mode)</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_minutiaeBlocksize">
+               <item>
                 <widget class="QLabel" name="label_minutiaeBlockSize">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Minutiae Block Size:</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <string>Minutiae Blocksize</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
+               <item>
                 <widget class="QSpinBox" name="spinBox_minutiaeBlockSize">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -136,23 +129,24 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_25">
+               <item>
                 <widget class="QLabel" name="label_additionalBlocks">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string>Additional Blocks +/-:</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                  <string>Additional Blocksize +/-</string>
                  </property>
                 </widget>
                </item>
-               <item row="1" column="1">
+               <item>
                 <widget class="QSpinBox" name="spinBox_additionalBlocks">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -170,33 +164,31 @@
              <item>
               <widget class="QGroupBox" name="groupBox_minutiaeType">
                <property name="title">
-                <string>Minutiae Type</string>
+                <string>Minutiae Types</string>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2">
                 <item>
-                 <widget class="QRadioButton" name="radioButton_ending">
-                  <property name="text">
-                   <string>Ending</string>
-                  </property>
-                  <property name="checked">
+                 <widget class="QComboBox" name="comboBox_minutiaeTypes">
+                  <property name="enabled">
                    <bool>true</bool>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_bifurcation">
-                  <property name="text">
-                   <string>Bifurcation</string>
-                  </property>
-                  <property name="checked">
+                  <property name="editable">
                    <bool>false</bool>
                   </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="radioButton_nothing">
-                  <property name="text">
-                   <string>Nothing</string>
+                  <property name="currentIndex">
+                   <number>-1</number>
+                  </property>
+                  <property name="maxVisibleItems">
+                   <number>10</number>
+                  </property>
+                  <property name="minimumContentsLength">
+                   <number>0</number>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>35</width>
+                    <height>35</height>
+                   </size>
                   </property>
                  </widget>
                 </item>
@@ -278,9 +270,16 @@
                  </layout>
                 </item>
                 <item>
+                 <widget class="QCheckBox" name="checkBox_marker_mirroring">
+                  <property name="text">
+                   <string>Mirroring</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QGroupBox" name="groupBox_marker_irisBlur">
                   <property name="title">
-                   <string>Iris Blur</string>
+                   <string>&amp;Iris Blur</string>
                   </property>
                   <property name="checkable">
                    <bool>true</bool>
@@ -423,7 +422,7 @@
          </widget>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_18">
+         <layout class="QVBoxLayout" name="verticalLayout_18" stretch="0,0,0">
           <item>
            <widget class="QGroupBox" name="groupBox_blockPreview">
             <property name="minimumSize">
@@ -1317,7 +1316,7 @@ color: white;</string>
                       <item>
                        <widget class="QRadioButton" name="radioButton_netTrainer_cpu">
                         <property name="text">
-                         <string>CPU</string>
+                         <string>C&amp;PU</string>
                         </property>
                        </widget>
                       </item>
@@ -1965,7 +1964,7 @@ color: white;</string>
                 <item>
                  <widget class="QRadioButton" name="radioButton_minChecker_cpuMode">
                   <property name="text">
-                   <string>CPU</string>
+                   <string>C&amp;PU</string>
                   </property>
                  </widget>
                 </item>
@@ -2735,7 +2734,7 @@ color: white;</string>
               <item>
                <widget class="QGroupBox" name="groupBox_exTester_frequencyMap">
                 <property name="title">
-                 <string>Frequency Map</string>
+                 <string>Fre&amp;quency Map</string>
                 </property>
                 <property name="checkable">
                  <bool>true</bool>
@@ -3690,7 +3689,7 @@ color: white;</string>
                    <item>
                     <widget class="QRadioButton" name="radioButton_dbTester_cpuMode">
                      <property name="text">
-                      <string>CPU</string>
+                      <string>CP&amp;U</string>
                      </property>
                     </widget>
                    </item>
@@ -4557,7 +4556,7 @@ color: white;</string>
      <x>0</x>
      <y>0</y>
      <width>1168</width>
-     <height>22</height>
+     <height>30</height>
     </rect>
    </property>
   </widget>

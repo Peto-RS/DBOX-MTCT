@@ -1,0 +1,69 @@
+\hypertarget{class_minutiae_marker}{}\section{Minutiae\+Marker Class Reference}
+\label{class_minutiae_marker}\index{Minutiae\+Marker@{Minutiae\+Marker}}
+
+
+The \mbox{\hyperlink{class_minutiae_marker}{Minutiae\+Marker}} class This class stores all the data regarding to the Minutiae Marker tab in application.  
+
+
+
+
+{\ttfamily \#include $<$minutiaemarker.\+h$>$}
+
+Inheritance diagram for Minutiae\+Marker\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_minutiae_marker}
+\end{center}
+\end{figure}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a9f56610c2aa29546a241635b411c88c2}\label{class_minutiae_marker_a9f56610c2aa29546a241635b411c88c2}} 
+void {\bfseries update\+Progress\+Bar\+Signal} (Q\+String bar\+Name, int value, Q\+String text=\char`\"{}\char`\"{})
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_aec4e7268ee8f6c17b6ae226955934672}\label{class_minutiae_marker_aec4e7268ee8f6c17b6ae226955934672}} 
+void {\bfseries update\+Minutiae\+Marker\+Scene\+Signal} (Q\+String action)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a8fca3a804d470a97275bc7069183b6a0}\label{class_minutiae_marker_a8fca3a804d470a97275bc7069183b6a0}} 
+void {\bfseries blocks\+Saved} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a129115fecd4bfb00f2026da4fc3e42b6}\label{class_minutiae_marker_a129115fecd4bfb00f2026da4fc3e42b6}} 
+Q\+Vector$<$ \mbox{\hyperlink{class_minutia}{Minutia}} $>$ {\bfseries get\+Minutiae} () const
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_ac8c0402ffc20bb0c42ff5a5f662d6877}\label{class_minutiae_marker_ac8c0402ffc20bb0c42ff5a5f662d6877}} 
+void {\bfseries set\+Minutiae} (const Q\+Vector$<$ \mbox{\hyperlink{class_minutia}{Minutia}} $>$ \&value)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a5d7b73dedcadded41e14660e43f4b0d5}\label{class_minutiae_marker_a5d7b73dedcadded41e14660e43f4b0d5}} 
+Q\+Map$<$ Q\+String, Q\+Vector$<$ \mbox{\hyperlink{class_minutia}{Minutia}} $>$ $>$ {\bfseries get\+Images} () const
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a371f6e4327c0196e431df14763481438}\label{class_minutiae_marker_a371f6e4327c0196e431df14763481438}} 
+void {\bfseries insert\+Image} (Q\+String img\+Name, Q\+Vector$<$ \mbox{\hyperlink{class_minutia}{Minutia}} $>$ minutiae)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a39204385971e76b2d1fd7e6e9084c9eb}\label{class_minutiae_marker_a39204385971e76b2d1fd7e6e9084c9eb}} 
+void {\bfseries remove\+Minutia} (int line\+Num)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a52e3cb5e73dadf3c5f3d4adce53df272}\label{class_minutiae_marker_a52e3cb5e73dadf3c5f3d4adce53df272}} 
+void {\bfseries remove\+All\+Blocks} ()
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a9a2b3f700559c947c41369576e4b1f1e}\label{class_minutiae_marker_a9a2b3f700559c947c41369576e4b1f1e}} 
+void {\bfseries generate\+Blocks} ()
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_a94ae6aa760dc0041528f7fc402262d9c}\label{class_minutiae_marker_a94ae6aa760dc0041528f7fc402262d9c}} 
+\mbox{\hyperlink{class_minutiae_marker_settings}{Minutiae\+Marker\+Settings}} $\ast$ {\bfseries get\+Settings} () const
+\item 
+\mbox{\Hypertarget{class_minutiae_marker_aa42fa18f6cd51662ec11c5b2e20a5499}\label{class_minutiae_marker_aa42fa18f6cd51662ec11c5b2e20a5499}} 
+void {\bfseries set\+Settings} (\mbox{\hyperlink{class_minutiae_marker_settings}{Minutiae\+Marker\+Settings}} $\ast$value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \mbox{\hyperlink{class_minutiae_marker}{Minutiae\+Marker}} class This class stores all the data regarding to the Minutiae Marker tab in application. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/minutiaemarker.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/minutiaemarker.\+cpp\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/moc\+\_\+minutiaemarker.\+cpp\end{DoxyCompactItemize}

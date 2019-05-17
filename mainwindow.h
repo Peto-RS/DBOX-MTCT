@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QListWidgetItem>
 #include <QMouseEvent>
+#include <QMetaType>
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
 #include <QGraphicsPixmapItem>
@@ -27,8 +28,6 @@
 #include <QTransform>
 #include <QThread>
 #include <QMessageBox>
-//#include <QWinTaskbarButton>
-//#include <QWinTaskbarProgress>
 #include <QShowEvent>
 #include <QDirModel>
 #include <QCustomPlot/qcustomplot.h>
@@ -36,7 +35,22 @@
 #undef ERROR
 
 #include "graphics_view_zoom.h"
-#include "minutiaemarker.h"
+#include "image.h"
+
+/***
+ * Application config
+ ***/
+#include "Config/dbox_mtct_config.h"
+#include "Config/minutia_config.h"
+
+/***
+ * Minutiae Marker
+ ***/
+#include "MinutiaeMarker/minutia.h"
+#include "MinutiaeMarker/minutiaemarker.h"
+#include "MinutiaeMarker/Config/minutiamarker_config.h"
+#include "MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h"
+
 #include "networktrainer.h"
 #include "minutiaechecker.h"
 #include "extractiontester.h"
@@ -59,9 +73,16 @@ private slots:
 
     void on_pushButton_inputDirectory_clicked();
     void on_listWidget_inputImages_itemClicked(QListWidgetItem *item);
-    void on_radioButton_ending_clicked();
-    void on_radioButton_bifurcation_clicked();
-    void on_radioButton_nothing_clicked();
+
+    /*****
+    * COMBOBOX - MINUTIAE TYPES
+    *****/
+    void on_comboBox_minutiaeTypes_currentTextChanged(const QString &arg1);
+
+    /*****
+     * CHECKBOXES - OPERATIONS
+     *****/
+
     void updateMinutiaeMarker(QString action);
     void generateMinutiaeHeatmap();
     void tableWidgetCellSelected(int row, int col);
@@ -81,7 +102,7 @@ private slots:
     void predictMinutia(QPoint xy);
     void updateProgressBar(QString barName, int value, QString text = "");
     void showHeatmap(QImage &heatMap);
-    void drawCurrentRectanglePosition(QPoint xy);
+    void drawCurrentRectanglePosition(QPoint, bool, QPoint);
     void addLog(QString logFieldName, QString text);
     void clearLog(QString logFieldName);
     void drawGraph(DBTEST_RESULT results);
@@ -121,8 +142,16 @@ private slots:
     void on_tabWidget_exTester_settings_currentChanged(int index);
     void on_doubleSpinBox_marker_irisBlur_radius_valueChanged(double arg1);
 
+    void on_comboBox_outputFormat_currentTextChanged(const QString &arg1);
+
+    void on_spinBox_minutiaeBlockSize_valueChanged(int arg1);
+
+    void on_spinBox_additionalBlocks_valueChanged(int arg1);
 private:
     Ui::MainWindow *ui;
+
+    //utils
+    MinutiaeMarker_DataAugmentationUtils dataAugmentationUtils;
 
     //QWinTaskbarButton *winTaskBarButton;
     //QWinTaskbarProgress *winTaskBarProgress;
@@ -180,9 +209,12 @@ private:
     void updateBlockPreviews(QPoint xy);
     void drawCircles(const MINUTIA &minutia, bool difference);
 
+    //gui
+    void initGui();
+    void initMinutiaeTypesCombobox();
+
 signals:
     void predictHeatmapSignal(QImage, int, bool);
-    void generateBlocksSignal(int, int, QString, bool, bool, double, bool, double, double);
     void predictMinutiaSignal(QImage, QPoint, int, bool);
     void updateMinutiaeSignal(QString, QString);
     void questionBoxAnswerSignal(bool answer);

@@ -1,0 +1,142 @@
+\hypertarget{class_minutiae_marker___data_augmentation_utils}{}\section{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils Class Reference}
+\label{class_minutiae_marker___data_augmentation_utils}\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+
+
+The Minutiae\+Marker\+\_\+\+Image\+Utils class. Collection of static methods for the purpose of data augmentation.  
+
+
+
+
+{\ttfamily \#include $<$minutiaemarker\+\_\+dataaugmentationutils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_ae3a58ce9cb541d26ff2b072e1dac4667}\label{class_minutiae_marker___data_augmentation_utils_ae3a58ce9cb541d26ff2b072e1dac4667}} 
+\mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_ae3a58ce9cb541d26ff2b072e1dac4667}{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}} ()
+\begin{DoxyCompactList}\small\item\em Minutiae\+Marker\+\_\+\+Image\+Utils Default constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_a965c0c4cb55a60d410a5aee9e9bdcdef}{rotate\+Image}} (Q\+Image image, int angle)
+\begin{DoxyCompactList}\small\item\em Rotate image by given angle in degrees. \end{DoxyCompactList}\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_afbbaf18bd05e76fd50301d769d1aa1ea}{iris\+Blur}} (Q\+Image image, double gauss\+Blur\+Sigma\+X\+\_\+image, double gauss\+Blur\+Sigma\+X\+\_\+mask)
+\begin{DoxyCompactList}\small\item\em Perform iris blur operation on given image. \end{DoxyCompactList}\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_a2c31bbec754608bf96326e76811eab8b}{gaussian\+Blur}} (Q\+Image image, double gauss\+Blur\+SigmaX)
+\begin{DoxyCompactList}\small\item\em Perform Gaussian blur operation on given image using cv\+::\+Gaussian\+Blur function. \end{DoxyCompactList}\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_a9124f9c3d2dde009af39a65110b37e75}{sharpen\+Image}} (Q\+Image image)
+\begin{DoxyCompactList}\small\item\em Apply Gaussian blur filter with weighted sum of pixels on given image using cv\+::\+Gaussian\+Blur function. \end{DoxyCompactList}\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___data_augmentation_utils_ad76e4eae2b6769bfa023edc88e9fb3ae}{mirror\+Image}} (Q\+Image image, bool mirror\+Horizontal=true)
+\begin{DoxyCompactList}\small\item\em Perform mirroring operation on input image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The Minutiae\+Marker\+\_\+\+Image\+Utils class. Collection of static methods for the purpose of data augmentation. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_a2c31bbec754608bf96326e76811eab8b}\label{class_minutiae_marker___data_augmentation_utils_a2c31bbec754608bf96326e76811eab8b}} 
+\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}!gaussian\+Blur@{gaussian\+Blur}}
+\index{gaussian\+Blur@{gaussian\+Blur}!Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+\subsubsection{\texorpdfstring{gaussian\+Blur()}{gaussianBlur()}}
+{\footnotesize\ttfamily Q\+Image Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils\+::gaussian\+Blur (\begin{DoxyParamCaption}\item[{Q\+Image}]{image,  }\item[{double}]{gauss\+Blur\+SigmaX }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Perform Gaussian blur operation on given image using cv\+::\+Gaussian\+Blur function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em gauss\+Blur\+SigmaX} & -\/ value of function parameter cv\+::\+Gaussian\+Blur sigmaX applied to image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image with application of Gaussian blur 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_afbbaf18bd05e76fd50301d769d1aa1ea}\label{class_minutiae_marker___data_augmentation_utils_afbbaf18bd05e76fd50301d769d1aa1ea}} 
+\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}!iris\+Blur@{iris\+Blur}}
+\index{iris\+Blur@{iris\+Blur}!Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+\subsubsection{\texorpdfstring{iris\+Blur()}{irisBlur()}}
+{\footnotesize\ttfamily Q\+Image Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils\+::iris\+Blur (\begin{DoxyParamCaption}\item[{Q\+Image}]{image,  }\item[{double}]{gauss\+Blur\+Sigma\+X\+\_\+image,  }\item[{double}]{gauss\+Blur\+Sigma\+X\+\_\+mask }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Perform iris blur operation on given image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em gauss\+Blur\+Sigma\+X\+\_\+image} & -\/ value of function parameter cv\+::\+Gaussian\+Blur sigmaX applied to image itself \\
+\hline
+{\em gauss\+Blur\+Sigma\+X\+\_\+mask} & -\/ value of function parameter cv\+::\+Gaussian\+Blur sigmaX applied to image circular mask \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image with application of iris blur 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_ad76e4eae2b6769bfa023edc88e9fb3ae}\label{class_minutiae_marker___data_augmentation_utils_ad76e4eae2b6769bfa023edc88e9fb3ae}} 
+\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}!mirror\+Image@{mirror\+Image}}
+\index{mirror\+Image@{mirror\+Image}!Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+\subsubsection{\texorpdfstring{mirror\+Image()}{mirrorImage()}}
+{\footnotesize\ttfamily Q\+Image Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils\+::mirror\+Image (\begin{DoxyParamCaption}\item[{Q\+Image}]{image,  }\item[{bool}]{mirror\+Horizontal = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Perform mirroring operation on input image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em mirror\+Horizontal} & -\/ if set to true use horizontal mirorring, else use vertical mirorring \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image with application of mirroring on image 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_a965c0c4cb55a60d410a5aee9e9bdcdef}\label{class_minutiae_marker___data_augmentation_utils_a965c0c4cb55a60d410a5aee9e9bdcdef}} 
+\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}!rotate\+Image@{rotate\+Image}}
+\index{rotate\+Image@{rotate\+Image}!Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+\subsubsection{\texorpdfstring{rotate\+Image()}{rotateImage()}}
+{\footnotesize\ttfamily Q\+Image Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils\+::rotate\+Image (\begin{DoxyParamCaption}\item[{Q\+Image}]{image,  }\item[{int}]{angle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Rotate image by given angle in degrees. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em angle} & -\/ angle in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Rotated image 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_minutiae_marker___data_augmentation_utils_a9124f9c3d2dde009af39a65110b37e75}\label{class_minutiae_marker___data_augmentation_utils_a9124f9c3d2dde009af39a65110b37e75}} 
+\index{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}!sharpen\+Image@{sharpen\+Image}}
+\index{sharpen\+Image@{sharpen\+Image}!Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils@{Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils}}
+\subsubsection{\texorpdfstring{sharpen\+Image()}{sharpenImage()}}
+{\footnotesize\ttfamily Q\+Image Minutiae\+Marker\+\_\+\+Data\+Augmentation\+Utils\+::sharpen\+Image (\begin{DoxyParamCaption}\item[{Q\+Image}]{image }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Apply Gaussian blur filter with weighted sum of pixels on given image using cv\+::\+Gaussian\+Blur function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image with application of Gaussian blur filter with sharpening 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/\+Utils/minutiaemarker\+\_\+dataaugmentationutils.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/\+Utils/minutiaemarker\+\_\+dataaugmentationutils.\+cpp\end{DoxyCompactItemize}

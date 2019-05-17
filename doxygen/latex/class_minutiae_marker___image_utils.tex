@@ -1,0 +1,87 @@
+\hypertarget{class_minutiae_marker___image_utils}{}\section{Minutiae\+Marker\+\_\+\+Image\+Utils Class Reference}
+\label{class_minutiae_marker___image_utils}\index{Minutiae\+Marker\+\_\+\+Image\+Utils@{Minutiae\+Marker\+\_\+\+Image\+Utils}}
+
+
+The \mbox{\hyperlink{class_minutiae_marker___image_utils}{Minutiae\+Marker\+\_\+\+Image\+Utils}} class. Collection of static methods for the purpose of data augmentation.  
+
+
+
+
+{\ttfamily \#include $<$minutiaemarker\+\_\+dataaugmentationutils.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_af13dada2f7014768d5d361371a8082f7}\label{class_minutiae_marker___image_utils_af13dada2f7014768d5d361371a8082f7}} 
+\mbox{\hyperlink{class_minutiae_marker___image_utils_af13dada2f7014768d5d361371a8082f7}{Minutiae\+Marker\+\_\+\+Image\+Utils}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{class_minutiae_marker___image_utils}{Minutiae\+Marker\+\_\+\+Image\+Utils}} Default constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_adc0e082f6567b6a538971a105aed639d}\label{class_minutiae_marker___image_utils_adc0e082f6567b6a538971a105aed639d}} 
+Q\+Image {\bfseries blur\+Block} (Q\+Image \&q\+Block, const double \&blur\+Value)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_a78042341924f110c600c224eb98a226e}\label{class_minutiae_marker___image_utils_a78042341924f110c600c224eb98a226e}} 
+Q\+Image {\bfseries sharp\+Block} (Q\+Image \&q\+Block)
+\item 
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_aefbe41399532d1ba65af4398c3645872}\label{class_minutiae_marker___image_utils_aefbe41399532d1ba65af4398c3645872}} 
+Q\+Image {\bfseries mirror\+Block} (Q\+Image \&img, bool mirror\+Horizontal=true)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___image_utils_a32423c55fb0867b8f212c059a232ffeb}{rotate}} (Q\+Image image, int angle)
+\begin{DoxyCompactList}\small\item\em Rotate image by given angle in degrees. \end{DoxyCompactList}\item 
+static Q\+Image \mbox{\hyperlink{class_minutiae_marker___image_utils_aab92c86a608501f23ae59762df470d60}{iris\+Blur}} (Q\+Image \&image, double gauss\+Blur\+Sigma\+X\+\_\+image, double gauss\+Blur\+Sigma\+X\+\_\+mask)
+\begin{DoxyCompactList}\small\item\em Perform iris blur operation on given image. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \mbox{\hyperlink{class_minutiae_marker___image_utils}{Minutiae\+Marker\+\_\+\+Image\+Utils}} class. Collection of static methods for the purpose of data augmentation. 
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_aab92c86a608501f23ae59762df470d60}\label{class_minutiae_marker___image_utils_aab92c86a608501f23ae59762df470d60}} 
+\index{Minutiae\+Marker\+\_\+\+Image\+Utils@{Minutiae\+Marker\+\_\+\+Image\+Utils}!iris\+Blur@{iris\+Blur}}
+\index{iris\+Blur@{iris\+Blur}!Minutiae\+Marker\+\_\+\+Image\+Utils@{Minutiae\+Marker\+\_\+\+Image\+Utils}}
+\subsubsection{\texorpdfstring{iris\+Blur()}{irisBlur()}}
+{\footnotesize\ttfamily static Q\+Image Minutiae\+Marker\+\_\+\+Image\+Utils\+::iris\+Blur (\begin{DoxyParamCaption}\item[{Q\+Image \&}]{image,  }\item[{double}]{gauss\+Blur\+Sigma\+X\+\_\+image,  }\item[{double}]{gauss\+Blur\+Sigma\+X\+\_\+mask }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Perform iris blur operation on given image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em gauss\+Blur\+Sigma\+X\+\_\+image} & -\/ value of function cv\+::\+Gaussian\+Blur sigmaX parameter applied on image \\
+\hline
+{\em gauss\+Blur\+Sigma\+X\+\_\+mask} & -\/ value of function cv\+::\+Gaussian\+Blur sigmaX parameter applied on image circular mask \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Image with application of iris blur 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_minutiae_marker___image_utils_a32423c55fb0867b8f212c059a232ffeb}\label{class_minutiae_marker___image_utils_a32423c55fb0867b8f212c059a232ffeb}} 
+\index{Minutiae\+Marker\+\_\+\+Image\+Utils@{Minutiae\+Marker\+\_\+\+Image\+Utils}!rotate@{rotate}}
+\index{rotate@{rotate}!Minutiae\+Marker\+\_\+\+Image\+Utils@{Minutiae\+Marker\+\_\+\+Image\+Utils}}
+\subsubsection{\texorpdfstring{rotate()}{rotate()}}
+{\footnotesize\ttfamily static Q\+Image Minutiae\+Marker\+\_\+\+Image\+Utils\+::rotate (\begin{DoxyParamCaption}\item[{Q\+Image}]{image,  }\item[{int}]{angle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Rotate image by given angle in degrees. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & -\/ input image \\
+\hline
+{\em angle} & -\/ angle in degrees \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Rotated image 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/\+Utils/minutiaemarker\+\_\+dataaugmentationutils.\+h\item 
+/home/peterhutas/\+Qt\+Projects/\+D\+B\+O\+X-\/\+M\+T\+C\+T/\+Minutiae\+Marker/\+Utils/minutiaemarker\+\_\+dataaugmentationutils.\+cpp\end{DoxyCompactItemize}

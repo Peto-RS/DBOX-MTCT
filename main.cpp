@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 
+#include <MinutiaeMarker/Config/minutiamarker_config.h>
 
 int main(int argc, char *argv[])
 {

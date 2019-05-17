@@ -1,14 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "graphics_view_zoom.h"
+
+#include <QIcon>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    qRegisterMetaType<Minutia>("Minutia");
 
-    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+    ui->setupUi(this);
 
     /*winTaskBarButton = new QWinTaskbarButton(this);
     winTaskBarButton->setWindow(this->windowHandle());
@@ -54,8 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->sceneBlockIrisBlur = new QGraphicsScene();
 
     this->fpScene = new MouseFingerprintScene();
-    this->fpScene->setType("ENDING");
-    this->fpScene->setMode("marker");
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::MARKER);
 
     this->previousImgName = "";
     this->actualImgName = "";
@@ -165,6 +166,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Other Connecter
     connect(this->ui->tableWidget_minutiae, SIGNAL(cellClicked(int, int)), this, SLOT(tableWidgetCellSelected(int, int)));
+
+    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+
+    this->initGui();
 }
 
 MainWindow::~MainWindow()
@@ -185,201 +190,6 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
-
-//Minutiae Marker BEGIN
-
-void MainWindow::on_pushButton_inputDirectory_clicked()
-{
-    this->minMarkerTh->removeAllBlocks();
-    this->updateMinutiaeMarker("remove");
-
-    this->ui->listWidget_inputImages->clear();
-    this->minMarkerTh->setInputPath(QFileDialog::getExistingDirectory());
-
-    QDir inputImages(this->minMarkerTh->getInputPath(), "*.png *.jpg *.bmp *.tif");
-    for (auto i:inputImages.entryInfoList()) {
-        this->ui->listWidget_inputImages->addItem(i.fileName());
-    }
-}
-
-void MainWindow::on_pushButton_marker_outputDirectory_clicked()
-{
-    this->minMarkerTh->setOutputPath(QFileDialog::getExistingDirectory());
-    this->ui->lineEdit_marker_outputDirectory->setText(this->minMarkerTh->getOutputPath());
-}
-
-
-void MainWindow::on_listWidget_inputImages_itemClicked(QListWidgetItem *item)
-{
-    this->actualImgName = item->text();
-    this->fpImg.load(this->minMarkerTh->getInputPath() + "/" + this->actualImgName);
-    this->fpImg = this->fpImg.convertToFormat(QImage::Format_Grayscale8);
-
-    this->fpScene->setImgWidth(this->fpImg.width());
-    this->fpScene->setImgHeight(this->fpImg.height());
-
-    emit updateMinutiaeSignal(this->previousImgName, this->actualImgName);
-
-    this->previousImgName = this->actualImgName;
-
-    this->ui->graphicsView_fingerprintMarker->setFocus();
-
-    this->updateMinutiaeMarker("remove");
-}
-
-void MainWindow::on_radioButton_ending_clicked()
-{
-    this->fpScene->setType("ENDING");
-    this->ui->graphicsView_fingerprintMarker->setFocus();
-}
-
-void MainWindow::on_radioButton_bifurcation_clicked()
-{
-    this->fpScene->setType("BIFURCATION");
-    this->ui->graphicsView_fingerprintMarker->setFocus();
-}
-
-void MainWindow::on_radioButton_nothing_clicked()
-{
-    this->fpScene->setType("NOTHING");
-    this->ui->graphicsView_fingerprintMarker->setFocus();
-}
-
-void MainWindow::drawCurrentRectanglePosition(QPoint xy)
-{
-    this->currentBlock->setPos(xy.x(), xy.y());
-}
-
-void MainWindow::updateBlockPreviews(QPoint xy)
-{
-    int blockSize = this->ui->spinBox_minutiaeBlockSize->value();
-    QImage block = this->fpImg.copy(QRect(xy.x() - blockSize/2, xy.y() - blockSize/2, blockSize, blockSize));
-    this->sceneBlockOrig->addPixmap(QPixmap::fromImage(block).scaled(this->ui->graphicsView_blockOrig->size()));
-    this->ui->graphicsView_blockOrig->setScene(this->sceneBlockOrig);
-    this->sceneBlockBlur->addPixmap(QPixmap::fromImage(this->minMarkerTh->blurBlock(block, this->ui->doubleSpinBox_marker_blur->value())).scaled(this->ui->graphicsView_blockBlur->size()));
-    this->ui->graphicsView_blockBlur->setScene(this->sceneBlockBlur);
-    this->sceneBlockIrisBlur->addPixmap(QPixmap::fromImage(this->minMarkerTh->irisBlurBlock(block, this->ui->doubleSpinBox_marker_irisBlur_blur->value(), this->ui->doubleSpinBox_marker_irisBlur_radius->value())).scaled(this->ui->graphicsView_blockIrisBlur->size()));
-    this->ui->graphicsView_blockIrisBlur->setScene(this->sceneBlockIrisBlur);
-}
-
-void MainWindow::updateMinutiaeMarker(QString action)
-{
-    int i = 0;
-
-    if (action.toLower() == "remove") {
-        this->fpScene->clear();
-
-        this->fpScene->addPixmap(QPixmap::fromImage(this->fpImg));
-        this->ui->graphicsView_fingerprintMarker->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
-
-        this->currentBlock = this->fpScene->addRect(0 - this->ui->spinBox_minutiaeBlockSize->value()/2, 0-this->ui->spinBox_minutiaeBlockSize->value()/2, this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_minutiaeBlockSize->value(), QPen(QColor(255, 127, 0)));
-        this->currentBlock->setZValue(1);
-    }
-
-    QVector<std::tuple<QPoint, QString> > minutiae = this->minMarkerTh->getMinutiae();
-
-    if (!minutiae.empty() && this->ui->listWidget_inputImages->count()) this->ui->listWidget_inputImages->item(this->ui->listWidget_inputImages->currentRow())->setBackground(QColor(132,221,114));
-    else if (this->ui->listWidget_inputImages->count()) this->ui->listWidget_inputImages->item(this->ui->listWidget_inputImages->currentRow())->setBackground(QColor("white"));
-
-    this->ui->tableWidget_minutiae->setRowCount(minutiae.size());
-    for (auto minutia : minutiae) {
-        QTableWidgetItem *x = new QTableWidgetItem (QString::number(std::get<0>(minutia).x()));
-        x->setTextAlignment(Qt::AlignCenter);
-        QTableWidgetItem *y = new QTableWidgetItem (QString::number(std::get<0>(minutia).y()));
-        y->setTextAlignment(Qt::AlignCenter);
-        QTableWidgetItem *remove = new QTableWidgetItem ("x");
-        remove->setTextAlignment(Qt::AlignCenter);
-
-        //MinutiaeList
-        this->ui->tableWidget_minutiae->setItem(i, 0, x);
-        this->ui->tableWidget_minutiae->setItem(i, 1, y);
-        this->ui->tableWidget_minutiae->setItem(i, 2, new QTableWidgetItem(std::get<1>(minutia)));
-        this->ui->tableWidget_minutiae->setItem(i, 3, remove);
-
-        if (action.toLower() == "remove" || i+1 == minutiae.size()) {
-            //MinutiaeRectangles
-            QColor color;
-            if (std::get<1>(minutia) == "ENDING") color = QColor(0,0,255);
-            else if (std::get<1>(minutia) == "BIFURCATION") color = QColor(0,255,0);
-            else if (std::get<1>(minutia) == "NOTHING") color = QColor(255,0,0);
-            int blockSize = this->ui->spinBox_minutiaeBlockSize->value();
-            QRect qr(std::get<0>(minutia).x() - blockSize/2, std::get<0>(minutia).y() - blockSize/2, blockSize, blockSize);
-
-            this->fpScene->addRect(qr, QPen(color));
-        }
-        if (action.toLower() == "add" && i+1 == minutiae.size()) this->updateBlockPreviews(std::get<0>(minutia));
-        i++;
-    }
-    this->ui->graphicsView_fingerprintMarker->setScene(this->fpScene);
-}
-
-void MainWindow::tableWidgetCellSelected(int row, int col)
-{
-    if (col == 3) {
-        this->minMarkerTh->removeMinutia(row);
-        this->updateMinutiaeMarker("remove");
-    }
-    else {
-        for(int i=0; i< ui->graphicsView_fingerprintMarker->scene()->items().count()-1; i++){
-            QGraphicsRectItem * rectClear = (QGraphicsRectItem*)ui->graphicsView_fingerprintMarker->scene()->items().at(i);
-            rectClear->setBrush(QBrush(QColor(0, 0, 0, 0)));
-        }
-
-        QGraphicsRectItem *rect= (QGraphicsRectItem*)ui->graphicsView_fingerprintMarker->scene()->items().at((ui->graphicsView_fingerprintMarker->scene()->items().count() - 1) - row-1);
-        rect->setBrush(QBrush(QColor(0, 0, 0, 150)));
-
-        qApp->processEvents();
-    }
-}
-
-void MainWindow::on_pushButton_marker_saveBlocks_clicked()
-{
-    this->ui->groupBox_marker_inputImages->setEnabled(false);
-    this->ui->groupBox_marker_minutiaeList->setEnabled(false);
-    this->ui->groupBox_marker_settings->setEnabled(false);
-    this->ui->pushButton_marker_saveBlocks->setEnabled(false);
-    this->ui->pushButton_marker_outputDirectory->setEnabled(false);
-
-    this->minMarkerTh->setOutputPath(this->ui->lineEdit_marker_outputDirectory->text());
-
-    emit updateMinutiaeSignal(this->actualImgName, this->actualImgName);
-    emit generateBlocksSignal(this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_additionalBlocks->value(),
-                              this->ui->comboBox_outputFormat->currentText(), this->ui->checkBox_marker_rotations->isChecked(),
-                              this->ui->checkBox_marker_blur->isChecked(), this->ui->doubleSpinBox_marker_blur->value(), this->ui->groupBox_marker_irisBlur->isChecked(), this->ui->doubleSpinBox_marker_irisBlur_blur->value(), this->ui->doubleSpinBox_marker_irisBlur_radius->value());
-}
-
-void MainWindow::markerBlocksSaved()
-{
-    this->ui->groupBox_marker_inputImages->setEnabled(true);
-    this->ui->groupBox_marker_minutiaeList->setEnabled(true);
-    this->ui->groupBox_marker_settings->setEnabled(true);
-    this->ui->pushButton_marker_saveBlocks->setEnabled(true);
-    this->ui->pushButton_marker_outputDirectory->setEnabled(true);
-
-    QDir inputImages(this->minMarkerTh->getInputPath(), "*.png *.jpg *.bmp *.tif");
-    for (int i = 0; i < this->ui->listWidget_inputImages->count(); i++) {
-        if (this->ui->listWidget_inputImages->item(i)->backgroundColor() == QColor(132,221,114))
-            this->ui->listWidget_inputImages->item(i)->setBackground(QColor(130,200,255));
-    }
-}
-
-void MainWindow::on_doubleSpinBox_marker_blur_valueChanged(double arg1)
-{
-    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(std::get<0>(this->minMarkerTh->getMinutiae()[this->minMarkerTh->getMinutiae().size()-1]));
-}
-
-void MainWindow::on_doubleSpinBox_marker_irisBlur_blur_valueChanged(double arg1)
-{
-    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(std::get<0>(this->minMarkerTh->getMinutiae()[this->minMarkerTh->getMinutiae().size()-1]));
-}
-
-void MainWindow::on_doubleSpinBox_marker_irisBlur_radius_valueChanged(double arg1)
-{
-    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(std::get<0>(this->minMarkerTh->getMinutiae()[this->minMarkerTh->getMinutiae().size()-1]));
-}
-
-
-//Minutiae Marker END
 
 //Network Trainer BEGIN
 
@@ -432,7 +242,7 @@ void MainWindow::on_pushButton_netTrainer_startTraining_clicked()
 void MainWindow::on_pushButton_inputDirectory_2_clicked()
 {    
     this->ui->listWidget_inputImages_2->clear();
-    this->minCheckerTh->setImgInputPath(QFileDialog::getExistingDirectory());
+    this->minCheckerTh->getImgInputPath() = QFileDialog::getExistingDirectory();
 
     QDir inputImages(this->minCheckerTh->getImgInputPath(), "*.png *.jpg *.bmp *.tif");
     for (auto i : inputImages.entryInfoList()) {
@@ -448,8 +258,8 @@ void MainWindow::on_listWidget_inputImages_2_itemClicked(QListWidgetItem *item)
 
     this->fpScene->clear();
     this->fpScene->addPixmap(QPixmap::fromImage(this->fpImg));
-    this->fpScene->setImgWidth(this->fpImg.width());
-    this->fpScene->setImgHeight(this->fpImg.height());
+//    this->fpScene->setImgWidth(this->fpImg.width());
+//    this->fpScene->setImgHeight(this->fpImg.height());
 
     this->currentBlock = this->fpScene->addRect(0 - this->ui->spinBox_minutiaeBlockSize->value()/2, 0-this->ui->spinBox_minutiaeBlockSize->value()/2, this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_minutiaeBlockSize->value(), QPen(QColor(255, 127, 0)));
     this->currentBlock->setVisible(false);
@@ -509,14 +319,14 @@ void MainWindow::generateMinutiaeHeatmap()
 
 void MainWindow::on_radioButton_standard_clicked()
 {
-    this->fpScene->setMode("checker");
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::CHECKER);
     this->ui->groupBox_foundedMinutia->setVisible(true);
     this->ui->groupBox_heatmapCreationProgress->setVisible(false);
 }
 
 void MainWindow::on_radioButton_heatmap_clicked()
 {
-    this->fpScene->setMode("checker_heatmap");
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::CHECKER_HEATMAP);
     this->generateMinutiaeHeatmap();
     this->ui->groupBox_foundedMinutia->setVisible(false);
     this->ui->groupBox_heatmapCreationProgress->setVisible(true);
@@ -573,17 +383,18 @@ void MainWindow::on_tabWidget_testerSettings_currentChanged(int index)
 
 void MainWindow::startMinutiaeMarker()
 {
-    this->fpScene->setMode("marker");
-
     this->minMarkerTh = new MinutiaeMarker();
     this->minMarkerTh->moveToThread(this->minMarkerTh);
     this->minMarkerTh->start();
 
+    //connect with fingerprint scene
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::MARKER);
+    this->fpScene->setMinutiaMarkerSettings(this->minMarkerTh->getSettings());
+
     //Minutiae Marker Connecter
     connect(this->minMarkerTh, SIGNAL(updateProgressBarSignal(QString, int, QString)), this, SLOT(updateProgressBar(QString, int, QString)));
-    connect(this->fpScene, SIGNAL(pushMinutiaSignal(QPoint, QString)), this->minMarkerTh, SLOT(pushMinutia(QPoint, QString)));
-    connect(this->fpScene, SIGNAL(setActualPositionSignal(QPoint)), this, SLOT(drawCurrentRectanglePosition(QPoint)));
-    connect(this, SIGNAL(generateBlocksSignal(int, int, QString, bool, bool, double, bool, double, double)), this->minMarkerTh, SLOT(generateBlocks(int, int, QString, bool, bool, double, bool, double, double)));
+    connect(this->fpScene, SIGNAL(pushMinutiaSignal(Minutia)), this->minMarkerTh, SLOT(pushMinutia(Minutia)));
+    connect(this->fpScene, SIGNAL(setActualPositionSignal(QPoint, bool, QPoint)), this, SLOT(drawCurrentRectanglePosition(QPoint, bool, QPoint)));
     connect(this->minMarkerTh, SIGNAL(updateMinutiaeMarkerSceneSignal(QString)), this, SLOT(updateMinutiaeMarker(QString)));
     connect(this, SIGNAL(updateMinutiaeSignal(QString, QString)), this->minMarkerTh, SLOT(updataMinutiae(QString, QString)));
     connect(this->minMarkerTh, SIGNAL(blocksSaved()), this, SLOT(markerBlocksSaved()));
@@ -595,7 +406,7 @@ void MainWindow::startNetworkTrainer()
     this->netTrainerTh->moveToThread(this->netTrainerTh);
     this->netTrainerTh->start();
 
-    this->fpScene->setMode("trainer");
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::TRAINER);
 
     //Network Trainer Connecter
     connect(this, SIGNAL(startTrainSignal(bool, bool, bool, int, int)), this->netTrainerTh, SLOT(startTrain(bool, bool, bool, int, int)));
@@ -610,7 +421,7 @@ void MainWindow::startMinutiaeChecker()
     this->minCheckerTh->moveToThread(this->minCheckerTh);
     this->minCheckerTh->start();
 
-    this->fpScene->setMode("checker");
+    this->fpScene->setMode(MouseFingerprintScene::MouseFingerprintSceneModes::CHECKER);
 
     qRegisterMetaType<QVector<QPair<QString, float> >>("QVector<QPair<QString, float> >");
 
@@ -907,6 +718,25 @@ void MainWindow::drawCircles(const MINUTIA &minutia, bool difference)
     textItemQuality->setPos(minutia.xy.x()+1, minutia.xy.y()-4);
 }
 
+//gui
+void MainWindow::initGui() {
+    this->initMinutiaeTypesCombobox();
+}
+
+void MainWindow::initMinutiaeTypesCombobox()
+{
+    std::map<std::string, MinutiaConfig> allActiveMinutiae = DboxMTCTConfig::getAllActiveMinutiae();
+
+    for (auto it = allActiveMinutiae.begin(); it != allActiveMinutiae.end(); ++it) {
+        QIcon icon = QIcon(QString::fromStdString(it->second.getIconPath()));
+        QString label = QString::fromStdString(it->second.getName());
+
+        this->ui->comboBox_minutiaeTypes->addItem(icon, label);
+    }
+
+    this->ui->comboBox_minutiaeTypes->setCurrentText("NOTHING");
+}
+
 void MainWindow::showExtractionTestResults(const cv::Mat &imgSkeleton, const QVector<MINUTIA> &crossingNumber, const QVector<MINUTIA> &fixedOrientations, const QVector<MINUTIA> &checkedOrientations)
 {
     cv::Mat imgMarked;
@@ -1036,4 +866,244 @@ void MainWindow::on_tabWidget_exTester_settings_currentChanged(int index)
     this->ui->tabWidget_exTester_settings->widget(index)->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     this->ui->tabWidget_exTester_settings->widget(index)->resize(this->ui->tabWidget_exTester_settings->widget(index)->minimumSizeHint());
     this->ui->tabWidget_exTester_settings->setFixedHeight(this->ui->tabWidget_exTester_settings->widget(index)->height()+35);
+}
+
+/*****
+ * MINUTIAE MARKER TAB
+ *****/
+
+void MainWindow::on_pushButton_inputDirectory_clicked()
+{
+    this->minMarkerTh->removeAllBlocks();
+    this->updateMinutiaeMarker("remove");
+
+    this->ui->listWidget_inputImages->clear();
+    this->minMarkerTh->getSettings()->inputPath = QFileDialog::getExistingDirectory();
+
+    QDir inputImages(this->minMarkerTh->getSettings()->inputPath, "*.png *.jpg *.bmp *.tif");
+    for (auto i:inputImages.entryInfoList()) {
+        this->ui->listWidget_inputImages->addItem(i.fileName());
+    }
+}
+
+void MainWindow::on_pushButton_marker_outputDirectory_clicked()
+{
+    this->minMarkerTh->getSettings()->outputPath = QFileDialog::getExistingDirectory();
+    this->ui->lineEdit_marker_outputDirectory->setText(this->minMarkerTh->getSettings()->outputPath);
+}
+
+
+void MainWindow::on_listWidget_inputImages_itemClicked(QListWidgetItem *item)
+{
+    this->actualImgName = item->text();
+    this->fpImg.load(this->minMarkerTh->getSettings()->inputPath + "/" + this->actualImgName);
+    this->fpImg = this->fpImg.convertToFormat(QImage::Format_Grayscale8);
+//    this->fpImg.
+
+//    this->fpScene->setImage(Image());
+//    this->fpScene->
+
+//    emit updateMinutiaeSignal(this->previousImgName, this->actualImgName);
+
+//    this->previousImgName = this->actualImgName;
+
+    this->ui->graphicsView_fingerprintMarker->setFocus();
+
+    this->updateMinutiaeMarker("remove");
+}
+
+void MainWindow::drawCurrentRectanglePosition(QPoint point, bool draggingMode, QPoint draggingStartPosition)
+{
+    if (draggingMode) {
+        QPoint pointDifference = draggingStartPosition - point;
+        QPoint pointUpperLeft = {qMin(draggingStartPosition.x(), point.x()), qMin(draggingStartPosition.y(), point.y())};
+
+        this->currentBlock->setRect(pointUpperLeft.x(), pointUpperLeft.y(), static_cast<int>(qAbs(pointDifference.x())), static_cast<int>(qAbs(pointDifference.y())));
+    }
+    else {
+        this->currentBlock->setRect(point.x(), point.y(), this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_minutiaeBlockSize->value());
+    }
+}
+
+void MainWindow::updateBlockPreviews(QPoint xy)
+{
+    int blockSize = this->ui->spinBox_minutiaeBlockSize->value();
+    QImage block = this->fpImg.copy(QRect(xy.x(), xy.y(), blockSize, blockSize));
+    this->sceneBlockOrig->addPixmap(QPixmap::fromImage(block).scaled(this->ui->graphicsView_blockOrig->size()));
+    this->ui->graphicsView_blockOrig->setScene(this->sceneBlockOrig);
+    this->sceneBlockBlur->addPixmap(QPixmap::fromImage(dataAugmentationUtils.gaussianBlur(block, this->ui->doubleSpinBox_marker_blur->value())).scaled(this->ui->graphicsView_blockBlur->size()));
+    this->ui->graphicsView_blockBlur->setScene(this->sceneBlockBlur);
+    this->sceneBlockIrisBlur->addPixmap(QPixmap::fromImage(dataAugmentationUtils.irisBlur(block, this->ui->doubleSpinBox_marker_irisBlur_blur->value(), this->ui->doubleSpinBox_marker_irisBlur_radius->value())).scaled(this->ui->graphicsView_blockIrisBlur->size()));
+    this->ui->graphicsView_blockIrisBlur->setScene(this->sceneBlockIrisBlur);
+}
+
+void MainWindow::updateMinutiaeMarker(QString action)
+{
+    int i = 0;
+
+    if (action.toLower() == "remove") {
+        this->fpScene->clear();
+
+        this->fpScene->addPixmap(QPixmap::fromImage(this->fpImg));
+        this->ui->graphicsView_fingerprintMarker->setAlignment(Qt::AlignCenter | Qt::AlignHCenter);
+
+        this->currentBlock = this->fpScene->addRect(0, 0, this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_minutiaeBlockSize->value(), QPen(QColor(255, 127, 0)));
+        this->currentBlock->setZValue(1);
+    }
+
+    QVector<Minutia> minutiae = this->minMarkerTh->getMinutiae();
+
+    if (!minutiae.empty() && this->ui->listWidget_inputImages->count())
+        this->ui->listWidget_inputImages->item(this->ui->listWidget_inputImages->currentRow())->setBackground(QColor(132,221,114));
+    else if (this->ui->listWidget_inputImages->count())
+        this->ui->listWidget_inputImages->item(this->ui->listWidget_inputImages->currentRow())->setBackground(QColor("white"));
+
+    this->ui->tableWidget_minutiae->setRowCount(minutiae.size());
+    for (auto minutia : minutiae) {
+        QTableWidgetItem *x = new QTableWidgetItem (QString::number(minutia.getCoordinates().x()));
+        x->setTextAlignment(Qt::AlignCenter);
+        QTableWidgetItem *y = new QTableWidgetItem (QString::number(minutia.getCoordinates().y()));
+        y->setTextAlignment(Qt::AlignCenter);
+        QTableWidgetItem *remove = new QTableWidgetItem ("x");
+        remove->setTextAlignment(Qt::AlignCenter);
+
+        //MinutiaeList
+        this->ui->tableWidget_minutiae->setItem(i, 0, x);
+        this->ui->tableWidget_minutiae->setItem(i, 1, y);
+        this->ui->tableWidget_minutiae->setItem(i, 2, new QTableWidgetItem(QString::fromStdString(minutia.getType().getName())));
+        this->ui->tableWidget_minutiae->setItem(i, 3, remove);
+
+        if (action.toLower() == "remove" || i+1 == minutiae.size()) {
+            QColor color(QString::fromStdString(minutia.getType().getColorHexCode()));
+
+            int blockSize = this->ui->spinBox_minutiaeBlockSize->value();
+
+            QRect qr(
+                        minutia.getCoordinates().x(),
+                        minutia.getCoordinates().y(),
+                        minutia.getCreatedInDragAndDropMode() ? minutia.getWidth() : blockSize,
+                        minutia.getCreatedInDragAndDropMode() ? minutia.getHeight() : blockSize);
+
+            this->fpScene->addRect(qr, QPen(color));
+        }
+        if (action.toLower() == "add" && i+1 == minutiae.size()) this->updateBlockPreviews(minutia.getCoordinates());
+        i++;
+    }
+    this->ui->graphicsView_fingerprintMarker->setScene(this->fpScene);
+}
+
+void MainWindow::tableWidgetCellSelected(int row, int col)
+{
+    if (col == 3) {
+        this->minMarkerTh->removeMinutia(row);
+        this->updateMinutiaeMarker("remove");
+    }
+    else {
+        for(int i=0; i< ui->graphicsView_fingerprintMarker->scene()->items().count()-1; i++){
+            QGraphicsRectItem * rectClear = (QGraphicsRectItem*)ui->graphicsView_fingerprintMarker->scene()->items().at(i);
+            rectClear->setBrush(QBrush(QColor(0, 0, 0, 0)));
+        }
+
+        QGraphicsRectItem *rect = (QGraphicsRectItem*)ui->graphicsView_fingerprintMarker->scene()->items().at((ui->graphicsView_fingerprintMarker->scene()->items().count() - 1) - row-1);
+        rect->setBrush(QBrush(QColor(0, 0, 0, 150)));
+
+        qApp->processEvents();
+    }
+}
+
+void MainWindow::on_pushButton_marker_saveBlocks_clicked()
+{
+    this->ui->groupBox_marker_inputImages->setEnabled(false);
+    this->ui->groupBox_marker_minutiaeList->setEnabled(false);
+    this->ui->groupBox_marker_settings->setEnabled(false);
+    this->ui->pushButton_marker_saveBlocks->setEnabled(false);
+    this->ui->pushButton_marker_outputDirectory->setEnabled(false);
+
+    emit updateMinutiaeSignal(this->actualImgName, this->actualImgName);
+
+    MinutiaeMarkerSettings *settings = this->minMarkerTh->getSettings();
+    settings->blocksize = this->ui->spinBox_minutiaeBlockSize->value();
+    settings->additionalBlocks = this->ui->spinBox_additionalBlocks->value();
+    settings->useRotation = this->ui->checkBox_marker_rotations->isChecked();
+    settings->useBlur = this->ui->checkBox_marker_blur->isChecked();
+    settings->blurValue = this->ui->doubleSpinBox_marker_blur->value();
+    settings->useMirroring = this->ui->checkBox_marker_mirroring->isChecked();
+    settings->useIrisBlur = this->ui->groupBox_marker_irisBlur->isChecked();
+    settings->irisBlurValue = this->ui->doubleSpinBox_marker_irisBlur_blur->value();
+    settings->irisBlurRadius = this->ui->doubleSpinBox_marker_irisBlur_radius->value();
+    settings->outputPath = this->ui->lineEdit_marker_outputDirectory->text();
+    settings->outputFormat = this->ui->comboBox_outputFormat->currentText();
+    settings->useSameSizeForImages = this->ui->checkBox_marker_useUniqueSize->isChecked();
+
+    this->minMarkerTh->generateBlocks();
+}
+
+void MainWindow::markerBlocksSaved()
+{
+    this->ui->groupBox_marker_inputImages->setEnabled(true);
+    this->ui->groupBox_marker_minutiaeList->setEnabled(true);
+    this->ui->groupBox_marker_settings->setEnabled(true);
+    this->ui->pushButton_marker_saveBlocks->setEnabled(true);
+    this->ui->pushButton_marker_outputDirectory->setEnabled(true);
+
+    QDir inputImages(this->minMarkerTh->getSettings()->outputPath, "*.png *.jpg *.bmp *.tif");
+    for (int i = 0; i < this->ui->listWidget_inputImages->count(); i++) {
+        if (this->ui->listWidget_inputImages->item(i)->backgroundColor() == QColor(132,221,114))
+            this->ui->listWidget_inputImages->item(i)->setBackground(QColor(130,200,255));
+    }
+}
+
+/*****
+ * MINUTIAE TYPES
+ *****/
+
+//comboBox
+void MainWindow::on_comboBox_minutiaeTypes_currentTextChanged(const QString &arg1)
+{
+    this->ui->graphicsView_fingerprintMarker->setFocus();
+
+    if (this->minMarkerTh->getSettings()) {
+        this->minMarkerTh->getSettings()->selectedMinutiaType = DboxMTCTConfig::getMinutiaConfigByName(arg1);
+    }
+}
+
+/*****
+ * TRANSFORMATIONS
+ *****/
+
+//doubleSpinBox
+void MainWindow::on_doubleSpinBox_marker_blur_valueChanged(double arg1)
+{
+    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(this->minMarkerTh->getMinutiae().last().getCoordinates());
+}
+
+void MainWindow::on_doubleSpinBox_marker_irisBlur_blur_valueChanged(double arg1)
+{
+    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(this->minMarkerTh->getMinutiae().last().getCoordinates());
+}
+
+void MainWindow::on_doubleSpinBox_marker_irisBlur_radius_valueChanged(double arg1)
+{
+    if (!this->minMarkerTh->getMinutiae().empty()) this->updateBlockPreviews(this->minMarkerTh->getMinutiae().last().getCoordinates());
+}
+
+void MainWindow::on_comboBox_outputFormat_currentTextChanged(const QString &arg1)
+{
+    if (this->minMarkerTh->getSettings()) {
+        this->minMarkerTh->getSettings()->outputFormat = arg1;
+    }
+}
+
+void MainWindow::on_spinBox_minutiaeBlockSize_valueChanged(int arg1)
+{
+    if (this->minMarkerTh->getSettings()) {
+        this->minMarkerTh->getSettings()->blocksize = arg1;
+    }
+}
+
+void MainWindow::on_spinBox_additionalBlocks_valueChanged(int arg1)
+{
+    if (this->minMarkerTh->getSettings()) {
+        this->minMarkerTh->getSettings()->additionalBlocks = arg1;
+    }
 }
