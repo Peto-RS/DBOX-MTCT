@@ -17,6 +17,7 @@
 
 #include "minutia.h"
 #include "minutiaemarker_settings.h"
+#include "MinutiaeMarker/Config/minutiamarker_config.h"
 
 ///
 /// \brief The MinutiaeMarker class
@@ -47,6 +48,7 @@ public:
     void setMinutiae(const QVector<Minutia> &value);
 
     QMap<QString, QVector<Minutia>> getImages() const;
+    void setImages(const QMap<QString, QVector<Minutia> > &value);
     void insertImage(QString imgName, QVector<Minutia> minutiae);
     void removeMinutia(int lineNum);
     void removeAllBlocks();

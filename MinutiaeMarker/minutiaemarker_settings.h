@@ -3,7 +3,9 @@
 
 #include "Config/dbox_mtct_config.h"
 #include "Config/minutia_config.h"
-#include "MinutiaeMarker/Config/minutiamarker_config.h"
+
+#include <map>
+#include <iostream>
 
 #include <QDebug>
 #include <QString>
@@ -34,7 +36,10 @@ public:
     MinutiaeMarkerSettings();
 
     //methods
+    static MinutiaeMarkerSettings fromTextFile(std::map<std::string, std::string>);
+    std::string toTextFile();
     void printToConsole();
+    static bool stringToBool(std::string text);
 };
 
 #endif // MINUTIAEMARKER_SETTINGS_H

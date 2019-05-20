@@ -6,16 +6,21 @@ MouseFingerprintScene::MouseFingerprintScene()
     this->point.setX(0);
     this->point.setY(0);
     this->draggingState = false;
+    this->imgWidth = 0;
+    this->imgHeight = 0;
 }
+
 
 //events
 void MouseFingerprintScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 //    qDebug() << "mouseDoubleClickEvent x:" << event->scenePos().x() << " y: " << event->scenePos().y();
 
-//    this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight, this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize);
+    this->point = {static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y())};
 
     if (this->mode == MouseFingerprintSceneModes::MARKER) {
+        this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight, this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize);
+
         emit pushMinutiaSignal(Minutia(this->point, this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize, false));
     }
     else if (this->mode == MouseFingerprintSceneModes::CHECKER) {
@@ -25,18 +30,24 @@ void MouseFingerprintScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *even
 
 void MouseFingerprintScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "mouseMoveEvent x:" << event->scenePos().x() << " y: " << event->scenePos().y();
+//    qDebug() << "mouseMoveEvent x:" << event->scenePos().x() << " y: " << event->scenePos().y();
 
-    this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->image.getImg().width(), this->image.getImg().height(), this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize);
+    this->point = {static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y())};
 
-    if (this->mode == MouseFingerprintSceneModes::MARKER) {
-        if (this->draggingState) {
-            this->draggingRectangle = getNormalizedDraggingRectangleInsideImage(this->draggingRectangle.x(), this->draggingRectangle.y(), this->point.x(), this->point.y());
+    if (this->imgWidth != 0 && this->imgHeight != 0) {
+        if (this->mode == MouseFingerprintSceneModes::MARKER) {
+            if (this->draggingState) {
+                this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight);
+//                this->draggingRectangle = getNormalizedDraggingRectangleInsideImage(this->draggingRectangle.x(), this->draggingRectangle.y(), this->point.x(), this->point.y());
 
-            emit setActualPositionSignal(this->point, true, this->draggingRectangle.topLeft());
-        }
-        else {
-            emit setActualPositionSignal(this->point, false, QPoint());
+                this->draggingRectangle.setBottomRight(this->point);
+                emit setActualPositionSignal(this->point, true, this->draggingRectangle.topLeft());
+            }
+            else {
+                this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight, this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize);
+
+                emit setActualPositionSignal(this->point, false, QPoint());
+            }
         }
     }
 }
@@ -45,24 +56,27 @@ void MouseFingerprintScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 //    qDebug() << "mousePressEvent x: " << event->scenePos().x() << " y: " << event->scenePos().y();
 
-//    this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight);
+    this->point = {static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y())};
 
     if (event->button() == Qt::RightButton) {
         this->draggingState = true;
-        this->draggingRectangle.setTopLeft(QPoint(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y())));
+        this->draggingRectangle.setTopLeft(getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight));
     }
 }
 
 void MouseFingerprintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-//    qDebug() << "mouseReleaseEvent x: " << event->scenePos().x() << " y: " << event->scenePos().y();
+    //    qDebug() << "mouseReleaseEvent x: " << event->scenePos().x() << " y: " << event->scenePos().y();
 
-//    this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight);
+    this->point = {static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y())};
 
     if (this->draggingState) {
-        this->draggingRectangle = getNormalizedDraggingRectangleInsideImage(this->draggingRectangle.x(), this->draggingRectangle.y(), this->point.x(), this->point.y());
+        this->point = getNormalizedCursorPositionInsideImage(static_cast<int>(event->scenePos().x()), static_cast<int>(event->scenePos().y()), this->imgWidth, this->imgHeight);
+
+        this->draggingRectangle.setBottomRight(this->point);
+        this->draggingRectangle = getNormalizedDraggingRectangleInsideImage(this->draggingRectangle.topLeft().x(), this->draggingRectangle.topLeft().y(), this->draggingRectangle.bottomRight().x(), this->draggingRectangle.bottomRight().y());
         if ((this->draggingRectangle.topLeft() - this->draggingRectangle.bottomRight()).manhattanLength() > this->MIN_DRAGGING_RECT_SIZE) {
-            emit pushMinutiaSignal(Minutia(point, this->draggingRectangle.width(), this->draggingRectangle.height(), true));
+            emit pushMinutiaSignal(Minutia(this->draggingRectangle.topLeft(), this->draggingRectangle.width(), this->draggingRectangle.height(), true));
         }
 
         this->draggingState = false;
@@ -73,7 +87,7 @@ void MouseFingerprintScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void MouseFingerprintScene::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Space) {
+    if (event->key() == Qt::Key_Space && !this->draggingState) {
         emit pushMinutiaSignal(Minutia(this->point, this->minutiaMarkerSettings->blocksize, this->minutiaMarkerSettings->blocksize, false));
     }
 }
@@ -98,8 +112,8 @@ MouseFingerprintScene::CursorPositionRelativeToImage MouseFingerprintScene::getC
 //        qDebug() << "CursorPositionRelativeToImage::OUTSIDE_TOP_RIGHT";
         return CursorPositionRelativeToImage::OUTSIDE_TOP_RIGHT;
     }
-    else if (x > imgWidth - areaWidth && y >= 0 && y <= imgHeight - areaHeight) {
-//        qDebug() << "CursorPositionRelativeToImage::OUTSIDE_RIGHTT";
+    else if (x > imgWidth - areaWidth && y >= 0 && y <= imgHeight) {
+//        qDebug() << "CursorPositionRelativeToImage::OUTSIDE_RIGHT";
         return CursorPositionRelativeToImage::OUTSIDE_RIGHT;
     }
     else if (x > imgWidth - areaWidth && y > imgHeight - areaHeight) {
@@ -119,7 +133,7 @@ MouseFingerprintScene::CursorPositionRelativeToImage MouseFingerprintScene::getC
         return CursorPositionRelativeToImage::OUTSIDE_LEFT;
     }
 
-//    qDebug() << "CursorPositionRelativeToImage::INSIDE";
+//qDebug() << "CursorPositionRelativeToImage::INSIDE";
     return CursorPositionRelativeToImage::INSIDE;
 }
 
@@ -128,7 +142,7 @@ QPoint MouseFingerprintScene::getNormalizedCursorPositionInsideImage(int x, int 
     CursorPositionRelativeToImage cursorPos;
     QPoint qPointToEmit;
 
-    cursorPos = getCursorPositionRelativeToImage(x, y, imgWidth - areaWidth, imgHeight - areaHeight);
+    cursorPos = getCursorPositionRelativeToImage(x, y, imgWidth - areaWidth, imgHeight - areaHeight, areaWidth, areaHeight);
 
     if (cursorPos == CursorPositionRelativeToImage::INSIDE) {
         qPointToEmit = QPoint(x, y);
@@ -166,7 +180,8 @@ QRect MouseFingerprintScene::getNormalizedDraggingRectangleInsideImage(int x1, i
     QRect qRectToReturn;
 
     qRectToReturn.setTopLeft(QPoint(qMin(x1, x2), qMin(y1, y2)));
-    qRectToReturn.setBottomRight(QPoint(static_cast<int>(qAbs(x1 - x2)), static_cast<int>(qAbs(y1 - y2))));
+    qRectToReturn.setWidth(static_cast<int>(qAbs(x1 - x2)));
+    qRectToReturn.setHeight(static_cast<int>(qAbs(y1 - y2)));
 
     return qRectToReturn;
 }
@@ -192,4 +207,14 @@ Image MouseFingerprintScene::getImage() const
 void MouseFingerprintScene::setImage(const Image &value)
 {
     image = value;
+}
+
+void MouseFingerprintScene::setImgWidth(int value)
+{
+    imgWidth = value;
+}
+
+void MouseFingerprintScene::setImgHeight(int value)
+{
+    imgHeight = value;
 }

@@ -68,7 +68,8 @@ SOURCES       = main.cpp \
 		MinutiaeMarker/Config/minutiaemarker_config.cpp \
 		MinutiaeMarker/minutiaemarker_settings.cpp \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp \
-		image.cpp moc_mainwindow.cpp \
+		image.cpp \
+		MinutiaeMarker/minutiaemarker_fileserializer.cpp moc_mainwindow.cpp \
 		moc_graphics_view_zoom.cpp \
 		moc_minutiaemarker.cpp \
 		moc_mousefingerprintscene.cpp \
@@ -98,6 +99,7 @@ OBJECTS       = main.o \
 		minutiaemarker_settings.o \
 		minutiaemarker_dataaugmentationutils.o \
 		image.o \
+		minutiaemarker_fileserializer.o \
 		moc_mainwindow.o \
 		moc_graphics_view_zoom.o \
 		moc_minutiaemarker.o \
@@ -353,7 +355,8 @@ DIST          = Resources/MinutiaeIcons/BIFURCATION.png \
 		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
 		MinutiaeMarker/Config/minutiamarker_config.h \
-		image.h main.cpp \
+		image.h \
+		MinutiaeMarker/minutiaemarker_fileserializer.h main.cpp \
 		mainwindow.cpp \
 		graphics_view_zoom.cpp \
 		MinutiaeMarker/minutiaemarker.cpp \
@@ -371,7 +374,8 @@ DIST          = Resources/MinutiaeIcons/BIFURCATION.png \
 		MinutiaeMarker/Config/minutiaemarker_config.cpp \
 		MinutiaeMarker/minutiaemarker_settings.cpp \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp \
-		image.cpp
+		image.cpp \
+		MinutiaeMarker/minutiaemarker_fileserializer.cpp
 QMAKE_TARGET  = DBOX-MTCT
 DESTDIR       = 
 TARGET        = DBOX-MTCT
@@ -829,8 +833,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/qt/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h graphics_view_zoom.h MinutiaeMarker/minutiaemarker.h mousefingerprintscene.h networktrainer.h minutiaechecker.h caffenetwork.h databasetester.h isoconverter.h qmatconverter.h QCustomPlot/qcustomplot.h extractiontester.h helper.h MinutiaeMarker/minutia.h ui_mainwindow.h Config/dbox_mtct_config.h Config/minutia_config.h MinutiaeMarker/minutiaemarker_settings.h MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h MinutiaeMarker/Config/minutiamarker_config.h image.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp graphics_view_zoom.cpp MinutiaeMarker/minutiaemarker.cpp mousefingerprintscene.cpp networktrainer.cpp minutiaechecker.cpp caffenetwork.cpp databasetester.cpp isoconverter.cpp QCustomPlot/qcustomplot.cpp extractiontester.cpp Config/dbox_mtct_config.cpp Config/minutia_config.cpp MinutiaeMarker/minutia.cpp MinutiaeMarker/Config/minutiaemarker_config.cpp MinutiaeMarker/minutiaemarker_settings.cpp MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp image.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h graphics_view_zoom.h MinutiaeMarker/minutiaemarker.h mousefingerprintscene.h networktrainer.h minutiaechecker.h caffenetwork.h databasetester.h isoconverter.h qmatconverter.h QCustomPlot/qcustomplot.h extractiontester.h helper.h MinutiaeMarker/minutia.h ui_mainwindow.h Config/dbox_mtct_config.h Config/minutia_config.h MinutiaeMarker/minutiaemarker_settings.h MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h MinutiaeMarker/Config/minutiamarker_config.h image.h MinutiaeMarker/minutiaemarker_fileserializer.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp graphics_view_zoom.cpp MinutiaeMarker/minutiaemarker.cpp mousefingerprintscene.cpp networktrainer.cpp minutiaechecker.cpp caffenetwork.cpp databasetester.cpp isoconverter.cpp QCustomPlot/qcustomplot.cpp extractiontester.cpp Config/dbox_mtct_config.cpp Config/minutia_config.cpp MinutiaeMarker/minutia.cpp MinutiaeMarker/Config/minutiaemarker_config.cpp MinutiaeMarker/minutiaemarker_settings.cpp MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp image.cpp MinutiaeMarker/minutiaemarker_fileserializer.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -871,12 +875,13 @@ moc_mainwindow.cpp: QCustomPlot/qcustomplot.h \
 		image.h \
 		Config/dbox_mtct_config.h \
 		Config/minutia_config.h \
+		MinutiaeMarker/minutiaemarker_fileserializer.h \
 		MinutiaeMarker/minutia.h \
+		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/minutiaemarker.h \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
 		qmatconverter.h \
 		mousefingerprintscene.h \
-		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/Config/minutiamarker_config.h \
 		networktrainer.h \
 		caffenetwork.h \
@@ -942,7 +947,6 @@ moc_mousefingerprintscene.cpp: image.h \
 		Config/minutia_config.h \
 		MinutiaeMarker/minutiaemarker_settings.h \
 		Config/dbox_mtct_config.h \
-		MinutiaeMarker/Config/minutiamarker_config.h \
 		mousefingerprintscene.h \
 		moc_predefs.h \
 		/usr/bin/moc
@@ -1071,12 +1075,13 @@ main.o: main.cpp mainwindow.h \
 		image.h \
 		Config/dbox_mtct_config.h \
 		Config/minutia_config.h \
+		MinutiaeMarker/minutiaemarker_fileserializer.h \
 		MinutiaeMarker/minutia.h \
+		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/minutiaemarker.h \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
 		qmatconverter.h \
 		mousefingerprintscene.h \
-		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/Config/minutiamarker_config.h \
 		networktrainer.h \
 		caffenetwork.h \
@@ -1121,12 +1126,13 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		image.h \
 		Config/dbox_mtct_config.h \
 		Config/minutia_config.h \
+		MinutiaeMarker/minutiaemarker_fileserializer.h \
 		MinutiaeMarker/minutia.h \
+		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/minutiaemarker.h \
 		MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
 		qmatconverter.h \
 		mousefingerprintscene.h \
-		MinutiaeMarker/minutiaemarker_settings.h \
 		MinutiaeMarker/Config/minutiamarker_config.h \
 		networktrainer.h \
 		caffenetwork.h \
@@ -1186,8 +1192,7 @@ mousefingerprintscene.o: mousefingerprintscene.cpp mousefingerprintscene.h \
 		MinutiaeMarker/minutia.h \
 		Config/minutia_config.h \
 		MinutiaeMarker/minutiaemarker_settings.h \
-		Config/dbox_mtct_config.h \
-		MinutiaeMarker/Config/minutiamarker_config.h
+		Config/dbox_mtct_config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mousefingerprintscene.o mousefingerprintscene.cpp
 
 networktrainer.o: networktrainer.cpp networktrainer.h \
@@ -1284,6 +1289,8 @@ minutia.o: MinutiaeMarker/minutia.cpp MinutiaeMarker/minutia.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o minutia.o MinutiaeMarker/minutia.cpp
 
 minutiaemarker_config.o: MinutiaeMarker/Config/minutiaemarker_config.cpp MinutiaeMarker/Config/minutiamarker_config.h \
+		MinutiaeMarker/minutiaemarker_settings.h \
+		Config/dbox_mtct_config.h \
 		Config/minutia_config.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o minutiaemarker_config.o MinutiaeMarker/Config/minutiaemarker_config.cpp
 
@@ -1299,6 +1306,13 @@ minutiaemarker_dataaugmentationutils.o: MinutiaeMarker/Utils/minutiaemarker_data
 
 image.o: image.cpp image.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o image.o image.cpp
+
+minutiaemarker_fileserializer.o: MinutiaeMarker/minutiaemarker_fileserializer.cpp MinutiaeMarker/minutiaemarker_fileserializer.h \
+		MinutiaeMarker/minutia.h \
+		Config/minutia_config.h \
+		MinutiaeMarker/minutiaemarker_settings.h \
+		Config/dbox_mtct_config.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o minutiaemarker_fileserializer.o MinutiaeMarker/minutiaemarker_fileserializer.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

@@ -33,7 +33,8 @@ SOURCES +=  main.cpp\
     MinutiaeMarker/Config/minutiaemarker_config.cpp \
     MinutiaeMarker/minutiaemarker_settings.cpp \
     MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.cpp \
-    image.cpp
+    image.cpp \
+    MinutiaeMarker/minutiaemarker_fileserializer.cpp
 
 HEADERS  += mainwindow.h \
     graphics_view_zoom.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     MinutiaeMarker/minutiaemarker_settings.h \
     MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h \
     MinutiaeMarker/Config/minutiamarker_config.h \
-    image.h
+    image.h \
+    MinutiaeMarker/minutiaemarker_fileserializer.h
 
 FORMS    += mainwindow.ui
 

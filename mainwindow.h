@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <iostream>
+
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QDir>
@@ -46,10 +48,12 @@
 /***
  * Minutiae Marker
  ***/
+#include "MinutiaeMarker/minutiaemarker_fileserializer.h"
 #include "MinutiaeMarker/minutia.h"
 #include "MinutiaeMarker/minutiaemarker.h"
 #include "MinutiaeMarker/Config/minutiamarker_config.h"
 #include "MinutiaeMarker/Utils/minutiaemarker_dataaugmentationutils.h"
+#include "MinutiaeMarker/minutiaemarker_settings.h"
 
 #include "networktrainer.h"
 #include "minutiaechecker.h"
@@ -147,6 +151,15 @@ private slots:
     void on_spinBox_minutiaeBlockSize_valueChanged(int arg1);
 
     void on_spinBox_additionalBlocks_valueChanged(int arg1);
+    void on_pushButton_marker_loadProgress_clicked();
+
+    void on_pushButton_marker_saveProgress_clicked();
+
+    MinutiaeMarkerSettings getMinutiaeMarkerSettingsFromGui();
+    void updateGuiFromMinutiaeMarkerSettings(MinutiaeMarkerSettings s);
+
+    void updateListWidgetOfInputImagesFromDir(QDir inputImages);
+
 private:
     Ui::MainWindow *ui;
 
@@ -211,6 +224,7 @@ private:
 
     //gui
     void initGui();
+    void initMinutiaeMarkerGui();
     void initMinutiaeTypesCombobox();
 
 signals:

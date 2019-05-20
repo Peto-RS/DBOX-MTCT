@@ -3,6 +3,10 @@
 
 #include <QIcon>
 
+#include <iostream>
+#include <fstream>
+#include <QDir>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -258,8 +262,8 @@ void MainWindow::on_listWidget_inputImages_2_itemClicked(QListWidgetItem *item)
 
     this->fpScene->clear();
     this->fpScene->addPixmap(QPixmap::fromImage(this->fpImg));
-//    this->fpScene->setImgWidth(this->fpImg.width());
-//    this->fpScene->setImgHeight(this->fpImg.height());
+    this->fpScene->setImgWidth(this->fpImg.width());
+    this->fpScene->setImgHeight(this->fpImg.height());
 
     this->currentBlock = this->fpScene->addRect(0 - this->ui->spinBox_minutiaeBlockSize->value()/2, 0-this->ui->spinBox_minutiaeBlockSize->value()/2, this->ui->spinBox_minutiaeBlockSize->value(), this->ui->spinBox_minutiaeBlockSize->value(), QPen(QColor(255, 127, 0)));
     this->currentBlock->setVisible(false);
@@ -720,7 +724,28 @@ void MainWindow::drawCircles(const MINUTIA &minutia, bool difference)
 
 //gui
 void MainWindow::initGui() {
+    this->initMinutiaeMarkerGui();
+}
+
+void MainWindow::initMinutiaeMarkerGui()
+{
     this->initMinutiaeTypesCombobox();
+
+    MinutiaeMarkerSettings defaultSettings = MinutiaeMarkerConfig::getDefaultMinutiaeMarkerSetting();
+
+    this->ui->spinBox_minutiaeBlockSize->setValue(defaultSettings.blocksize);
+//    this->ui->spinBox_additionalBlocks->setValue(defaultSettings.additionalBlocks);
+    this->ui->comboBox_minutiaeTypes->setCurrentText(QString::fromStdString(defaultSettings.selectedMinutiaType.getName()));
+    this->ui->checkBox_marker_rotations->setChecked(defaultSettings.useRotation);
+    this->ui->checkBox_marker_blur->setChecked(defaultSettings.useBlur);
+    this->ui->doubleSpinBox_marker_blur->setValue(defaultSettings.blurValue);
+    this->ui->checkBox_marker_mirroring->setChecked(defaultSettings.useMirroring);
+    this->ui->groupBox_marker_irisBlur->setChecked(defaultSettings.useIrisBlur);
+    this->ui->doubleSpinBox_marker_irisBlur_blur->setValue(defaultSettings.irisBlurValue);
+    this->ui->doubleSpinBox_marker_irisBlur_radius->setValue(defaultSettings.irisBlurRadius);
+    this->ui->lineEdit_marker_outputDirectory->setText(defaultSettings.outputPath);
+    this->ui->comboBox_outputFormat->setCurrentText(defaultSettings.outputFormat);
+    this->ui->checkBox_marker_useUniqueSize->setChecked(defaultSettings.useSameSizeForImages);
 }
 
 void MainWindow::initMinutiaeTypesCombobox()
@@ -733,8 +758,6 @@ void MainWindow::initMinutiaeTypesCombobox()
 
         this->ui->comboBox_minutiaeTypes->addItem(icon, label);
     }
-
-    this->ui->comboBox_minutiaeTypes->setCurrentText("NOTHING");
 }
 
 void MainWindow::showExtractionTestResults(const cv::Mat &imgSkeleton, const QVector<MINUTIA> &crossingNumber, const QVector<MINUTIA> &fixedOrientations, const QVector<MINUTIA> &checkedOrientations)
@@ -875,14 +898,26 @@ void MainWindow::on_tabWidget_exTester_settings_currentChanged(int index)
 void MainWindow::on_pushButton_inputDirectory_clicked()
 {
     this->minMarkerTh->removeAllBlocks();
-    this->updateMinutiaeMarker("remove");
-
     this->ui->listWidget_inputImages->clear();
+
+    this->updateMinutiaeMarker("remove");
     this->minMarkerTh->getSettings()->inputPath = QFileDialog::getExistingDirectory();
 
-    QDir inputImages(this->minMarkerTh->getSettings()->inputPath, "*.png *.jpg *.bmp *.tif");
+    this->updateListWidgetOfInputImagesFromDir(QDir(this->minMarkerTh->getSettings()->inputPath, "*.png *.jpg *.bmp *.tif"));
+}
+
+void MainWindow::updateListWidgetOfInputImagesFromDir(QDir inputImages) {
     for (auto i:inputImages.entryInfoList()) {
         this->ui->listWidget_inputImages->addItem(i.fileName());
+    }
+
+    for (int j = 0; j < inputImages.entryInfoList().size(); j++) {
+        if (this->minMarkerTh->getImages()[inputImages.entryInfoList()[j].fileName()].size() > 0) {
+            this->ui->listWidget_inputImages->item(j)->setBackground(QColor(132,221,114));
+        }
+        else {
+            this->ui->listWidget_inputImages->item(j)->setBackground(QColor("white"));
+        }
     }
 }
 
@@ -898,14 +933,13 @@ void MainWindow::on_listWidget_inputImages_itemClicked(QListWidgetItem *item)
     this->actualImgName = item->text();
     this->fpImg.load(this->minMarkerTh->getSettings()->inputPath + "/" + this->actualImgName);
     this->fpImg = this->fpImg.convertToFormat(QImage::Format_Grayscale8);
-//    this->fpImg.
 
-//    this->fpScene->setImage(Image());
-//    this->fpScene->
+    this->fpScene->setImgWidth(this->fpImg.width());
+    this->fpScene->setImgHeight(this->fpImg.height());
 
-//    emit updateMinutiaeSignal(this->previousImgName, this->actualImgName);
+    emit updateMinutiaeSignal(this->previousImgName, this->actualImgName);
 
-//    this->previousImgName = this->actualImgName;
+    this->previousImgName = this->actualImgName;
 
     this->ui->graphicsView_fingerprintMarker->setFocus();
 
@@ -981,8 +1015,8 @@ void MainWindow::updateMinutiaeMarker(QString action)
             QRect qr(
                         minutia.getCoordinates().x(),
                         minutia.getCoordinates().y(),
-                        minutia.getCreatedInDragAndDropMode() ? minutia.getWidth() : blockSize,
-                        minutia.getCreatedInDragAndDropMode() ? minutia.getHeight() : blockSize);
+                        minutia.getWidth(),
+                        minutia.getHeight());
 
             this->fpScene->addRect(qr, QPen(color));
         }
@@ -1023,7 +1057,7 @@ void MainWindow::on_pushButton_marker_saveBlocks_clicked()
 
     MinutiaeMarkerSettings *settings = this->minMarkerTh->getSettings();
     settings->blocksize = this->ui->spinBox_minutiaeBlockSize->value();
-    settings->additionalBlocks = this->ui->spinBox_additionalBlocks->value();
+//    settings->additionalBlocks = this->ui->spinBox_additionalBlocks->value();
     settings->useRotation = this->ui->checkBox_marker_rotations->isChecked();
     settings->useBlur = this->ui->checkBox_marker_blur->isChecked();
     settings->blurValue = this->ui->doubleSpinBox_marker_blur->value();
@@ -1106,4 +1140,97 @@ void MainWindow::on_spinBox_additionalBlocks_valueChanged(int arg1)
     if (this->minMarkerTh->getSettings()) {
         this->minMarkerTh->getSettings()->additionalBlocks = arg1;
     }
+}
+
+void MainWindow::on_pushButton_marker_loadProgress_clicked()
+{
+//    this->previousImgName = "";
+//    this->actualImgName = "";
+
+    std::string line;
+    std::ifstream file (QFileDialog::getOpenFileName().toStdString());
+    if (file.is_open())
+    {
+        std::tuple<MinutiaeMarkerSettings, QMap<QString, QVector<Minutia>>> tuple = MinutiaeMarker_FileSerializer::loadFromFile(file);
+        updateGuiFromMinutiaeMarkerSettings(std::get<0>(tuple));
+
+        this->minMarkerTh->removeAllBlocks();
+        this->ui->listWidget_inputImages->clear();
+        this->updateMinutiaeMarker("remove");
+
+        this->minMarkerTh->setImages(std::get<1>(tuple));
+        this->minMarkerTh->getSettings()->inputPath = std::get<0>(tuple).inputPath;
+        this->updateListWidgetOfInputImagesFromDir(QDir(this->minMarkerTh->getSettings()->inputPath, "*.png *.jpg *.bmp *.tif"));
+
+        file.close();
+
+        this->ui->statusBar->showMessage("Progress loaded", 10000);
+    }
+    else {
+        this->ui->statusBar->showMessage("Progress load FAILED", 10000);
+    }
+}
+
+void MainWindow::on_pushButton_marker_saveProgress_clicked()
+{
+    MinutiaeMarkerSettings m = getMinutiaeMarkerSettingsFromGui();
+
+    std::ofstream file (QDir(m.outputPath).filePath("progress.txt").toStdString());
+    if (file.is_open())
+    {
+        this->ui->groupBox_marker_inputImages->setEnabled(false);
+        this->ui->groupBox_marker_minutiaeList->setEnabled(false);
+        this->ui->groupBox_marker_settings->setEnabled(false);
+        this->ui->pushButton_marker_saveBlocks->setEnabled(false);
+        this->ui->pushButton_marker_outputDirectory->setEnabled(false);
+
+        emit updateMinutiaeSignal(this->actualImgName, this->actualImgName);
+
+        m.inputPath = this->minMarkerTh->getSettings()->inputPath;
+
+        MinutiaeMarker_FileSerializer::writeFileToDisk(file, m, this->minMarkerTh->getImages());
+
+        markerBlocksSaved();
+        file.close();
+
+        this->ui->statusBar->showMessage("Progress saved", 10000);
+    }
+    else {
+        this->ui->statusBar->showMessage("Progress save FAILED", 10000);
+    }
+}
+
+void MainWindow::updateGuiFromMinutiaeMarkerSettings(MinutiaeMarkerSettings s) {
+    this->ui->spinBox_minutiaeBlockSize->setValue(s.blocksize);
+//    this->ui->spinBox_additionalBlocks->setValue(defaultSettings.additionalBlocks);
+    this->ui->comboBox_minutiaeTypes->setCurrentText(QString::fromStdString(s.selectedMinutiaType.getName()));
+    this->ui->checkBox_marker_rotations->setChecked(s.useRotation);
+    this->ui->checkBox_marker_blur->setChecked(s.useBlur);
+    this->ui->doubleSpinBox_marker_blur->setValue(s.blurValue);
+    this->ui->checkBox_marker_mirroring->setChecked(s.useMirroring);
+    this->ui->groupBox_marker_irisBlur->setChecked(s.useIrisBlur);
+    this->ui->doubleSpinBox_marker_irisBlur_blur->setValue(s.irisBlurValue);
+    this->ui->doubleSpinBox_marker_irisBlur_radius->setValue(s.irisBlurRadius);
+    this->ui->lineEdit_marker_outputDirectory->setText(s.outputPath);
+    this->ui->comboBox_outputFormat->setCurrentText(s.outputFormat);
+    this->ui->checkBox_marker_useUniqueSize->setChecked(s.useSameSizeForImages);
+}
+
+MinutiaeMarkerSettings MainWindow::getMinutiaeMarkerSettingsFromGui() {
+    MinutiaeMarkerSettings s;
+
+    s.blocksize = this->ui->spinBox_minutiaeBlockSize->value();
+//    s.additionalBlocks = this->ui->spinBox_additionalBlocks->value();
+    s.useRotation = this->ui->checkBox_marker_rotations->isChecked();f
+    s.useBlur = this->ui->checkBox_marker_blur->isChecked();
+    s.blurValue = this->ui->doubleSpinBox_marker_blur->value();
+    s.useMirroring = this->ui->checkBox_marker_mirroring->isChecked();
+    s.useIrisBlur = this->ui->groupBox_marker_irisBlur->isChecked();
+    s.irisBlurValue = this->ui->doubleSpinBox_marker_irisBlur_blur->value();
+    s.irisBlurRadius = this->ui->doubleSpinBox_marker_irisBlur_radius->value();
+    s.outputPath = this->ui->lineEdit_marker_outputDirectory->text();
+    s.outputFormat = this->ui->comboBox_outputFormat->currentText();
+    s.useSameSizeForImages = this->ui->checkBox_marker_useUniqueSize->isChecked();
+
+    return s;
 }

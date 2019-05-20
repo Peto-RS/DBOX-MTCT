@@ -3,6 +3,9 @@
 
 #include <Config/minutia_config.h>
 
+#include "map"
+#include <string>
+
 #include <QMetaType>
 #include <QPoint>
 #include <QString>
@@ -23,6 +26,9 @@ public:
     Minutia(QPoint);
     Minutia(QPoint, int, int, bool);
     Minutia(QPoint, int, int, std::string, MinutiaConfig);
+
+    static Minutia fromTextFile(std::map<std::string, std::string>);
+    std::string toTextFile();
 
     //getters and setters
     QPoint getCoordinates() const;

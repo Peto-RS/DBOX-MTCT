@@ -1,5 +1,17 @@
 #include "minutia.h"
 
+#include "Config/dbox_mtct_config.h"
+
+#include <iostream>
+
+bool stringToBool(std::string text) {
+    if (text.compare("1") == 0) {
+        return true;
+    }
+
+    return false;
+}
+
 //constructors
 Minutia::Minutia() {
     this->createdInDragAndDropMode = false;
@@ -28,6 +40,29 @@ Minutia::Minutia(QPoint coordinates, int width, int height, std::string imgPath,
     this->type = selectedMinutiaType;
 
     this->createdInDragAndDropMode = false;
+}
+
+Minutia Minutia::fromTextFile(std::map<std::string, std::string> params)
+{
+    Minutia m;
+
+    m.type = params.find("type") != params.end() ? DboxMTCTConfig::Minutiae[params["type"]] : DboxMTCTConfig::Minutiae["nothing"];
+    m.coordinates = {params.find("x") != params.end() ? std::stoi(params["x"]) : 0, params.find("y") != params.end() ? std::stoi(params["y"]) : 0};
+    m.width = params.find("width") != params.end() ? std::stoi(params["width"]) : 19;
+    m.height = params.find("height") != params.end() ? std::stoi(params["height"]) : 19;
+    m.createdInDragAndDropMode = params.find("createdInDragAndDropMode") != params.end() ? stringToBool(params["createdInDragAndDropMode"]) : false;
+
+    return m;
+}
+
+std::string Minutia::toTextFile()
+{
+    return "type=" + this->type.getId() + ";" +
+           "x=" + std::to_string(this->getCoordinates().x()) + ";" +
+           "y=" + std::to_string(this->getCoordinates().y()) + ";" +
+           "width=" + std::to_string(this->getWidth()) + ";" +
+           "height=" + std::to_string(this->getHeight()) + ";" +
+           "createdInDragAndDropMode=" + std::to_string(this->createdInDragAndDropMode) + ";";
 }
 
 //getters and setters

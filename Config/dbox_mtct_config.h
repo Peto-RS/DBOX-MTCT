@@ -1,5 +1,5 @@
-#ifndef MINUTIAEMARKER_CONFIG_H
-#define MINUTIAEMARKER_CONFIG_H
+#ifndef DBOX_MTCT_CONFIG_H
+#define DBOX_MTCT_CONFIG_H
 
 #include <Config/minutia_config.h>
 
@@ -17,7 +17,7 @@ public:
     //variables
     ///
     /// \brief The MinutiaTypes enum
-    /// List of all minutiae types available in our application
+    /// List of all minutiae types available in our application    
     enum class MinutiaTypes
     {
         BIFURCATION,
@@ -74,4 +74,4 @@ public:
     static std::map<std::string, MinutiaConfig> setupMinutiae();
 };
 
-#endif // MINUTIAEMARKER_CONFIG_H
+#endif // DBOX_MTCT_CONFIG_H

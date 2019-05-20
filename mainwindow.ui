@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1168</width>
-    <height>773</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,8 +93,7 @@
              <item>
               <widget class="QCheckBox" name="checkBox_marker_useUniqueSize">
                <property name="text">
-                <string>Use same size for images
- (except created in dragging mode)</string>
+                <string>Use same size for images</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
@@ -126,36 +125,6 @@
                  </property>
                  <property name="value">
                   <number>21</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_25">
-               <item>
-                <widget class="QLabel" name="label_additionalBlocks">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Additional Blocksize +/-</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSpinBox" name="spinBox_additionalBlocks">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="value">
-                  <number>2</number>
                  </property>
                 </widget>
                </item>
@@ -278,6 +247,9 @@
                 </item>
                 <item>
                  <widget class="QGroupBox" name="groupBox_marker_irisBlur">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
                   <property name="title">
                    <string>&amp;Iris Blur</string>
                   </property>
@@ -433,7 +405,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>270</width>
+              <width>300</width>
               <height>115</height>
              </size>
             </property>
@@ -788,16 +760,22 @@
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox_marker_minutiaeList">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>270</width>
+              <width>300</width>
               <height>0</height>
              </size>
             </property>
             <property name="maximumSize">
              <size>
               <width>270</width>
-              <height>16777215</height>
+              <height>300</height>
              </size>
             </property>
             <property name="title">
@@ -808,8 +786,8 @@
               <widget class="QTableWidget" name="tableWidget_minutiae">
                <property name="maximumSize">
                 <size>
-                 <width>256</width>
-                 <height>16777215</height>
+                 <width>285</width>
+                 <height>250</height>
                 </size>
                </property>
                <property name="autoFillBackground">
@@ -860,7 +838,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>270</width>
+              <width>300</width>
               <height>180</height>
              </size>
             </property>
@@ -868,6 +846,24 @@
              <string>Output</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_25">
+               <item>
+                <widget class="QPushButton" name="pushButton_marker_loadProgress">
+                 <property name="text">
+                  <string>Load progress</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButton_marker_saveProgress">
+                 <property name="text">
+                  <string>Save progress</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
                <item>
@@ -938,22 +934,6 @@
               </layout>
              </item>
              <item>
-              <spacer name="verticalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>10</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
               <spacer name="verticalSpacer_4">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -970,6 +950,12 @@
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
                 <widget class="QLabel" name="label_outputFormat">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
                  <property name="minimumSize">
                   <size>
                    <width>0</width>

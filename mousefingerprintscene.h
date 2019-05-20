@@ -54,6 +54,9 @@ public:
     Image getImage() const;
     void setImage(const Image &value);
 
+    void setImgWidth(int value);
+    void setImgHeight(int value);
+
 private:
     //constants
     const int MIN_DRAGGING_RECT_SIZE = 15;
@@ -65,6 +68,8 @@ private:
     QPoint point;
 
     Image image;
+    int imgWidth;
+    int imgHeight;
 
     /***
      * Minutiae marker

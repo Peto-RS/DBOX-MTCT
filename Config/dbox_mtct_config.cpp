@@ -67,7 +67,7 @@ std::map<std::string, MinutiaConfig> DboxMTCTConfig::setupMinutiae()
     MinutiaConfig nothing;
     nothing.setIsActive(true);
     nothing.setId("nothing");
-    nothing.setColorHexCode("#000000");
+    nothing.setColorHexCode("#555555");
     nothing.setIconPath("./Resources/MinutiaeIcons/NOTHING.png");
     nothing.setName("NOTHING");
 

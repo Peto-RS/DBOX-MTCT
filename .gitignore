@@ -35,3 +35,5 @@ moc_*
 *.exe
 *.out
 *.app
+
+./output
